@@ -2,7 +2,7 @@
 <html class="x-admin-sm">
 <head>
     <meta charset="UTF-8">
-    <title>欢迎页面-X-admin2.2</title>
+    <title>Welcome</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
@@ -13,10 +13,6 @@
     <link rel="stylesheet" href="static/layui/lib/layui-v2.5.5/css/layui.css">
     <link rel="stylesheet" href="./css/font.css">
     <link rel="stylesheet" href="./css/xadmin.css">
-    <script src="static/layui/js/common/jQuery .js"></script>
-    <script src="static/layui/js/common/myAjax.js"></script>
-    <script type="text/javascript" src="./lib/layui/layui.js" charset="utf-8"></script>
-    <script type="text/javascript" src="./js/xadmin.js"></script>
 
 
     <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
@@ -24,11 +20,25 @@
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
     <![endif]--></head>
+<script src="static/layui/js/common/jQuery .js"></script>
+<script src="static/layui/js/common/myAjax.js"></script>
+<script type="text/javascript" src="./lib/layui/layui.js" charset="utf-8"></script>
+<script type="text/javascript" src="./js/xadmin.js"></script>
 
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
 <body>
 <div class="layui-fluid">
-    <div class="layui-row">
-        <form class="layui-form">
+    <div class="layui-row" style="width: 450px;margin: auto;">
+        <div class="layui-form">
+            <div class="layui-form-item">
+                <label for="icon" class="layui-form-label">
+                    <span   class="x-red">*</span>头像
+                </label>
+                <div class="layui-input-inline">
+                    <div><input type="file" id="icon" name="icon" onchange="showPlayerEditImg(this)"></div>
+                    <div><img src="" id="showImgHref" width="66" height="66"></div>
+                </div>
+            </div>
             <div class="layui-form-item">
                 <label for="username" class="layui-form-label">
                     <span class="x-red">*</span>用户名
@@ -41,12 +51,21 @@
                     <span class="x-red">*</span>将会成为您唯一的登入名
                 </div>
             </div>
+
+            <!--<div class="layui-form-item">
+                <label class="layui-form-label">用户名<span class="layui-badge-dot"></span></label>
+                <div class="layui-input-inline">
+                    <input type="text" name="username" id="username" required  lay-verify="required"
+                           placeholder="请输入用户名" autocomplete="off" class="layui-input">
+                </div>
+            </div>-->
+
             <div class="layui-form-item">
                 <label class="layui-form-label"><span class="x-red">*</span>性别</label>
                 <div class="layui-input-block">
-                    <input type="radio" name="sex" lay-skin="primary" title="男">
-                    <input type="radio" name="sex" lay-skin="primary" title="女">
-                    <input type="radio" name="sex" lay-skin="primary" title="保密" checked="">
+                    <input type="radio" name="sex" lay-skin="primary" title="男" value="男">
+                    <input type="radio" name="sex" lay-skin="primary" title="女" value="女">
+                    <input type="radio" name="sex" lay-skin="primary" title="保密" value="保密" checked="">
                 </div>
             </div>
             <div class="layui-form-item">
@@ -54,12 +73,12 @@
                     <span class="x-red">*</span>手机
                 </label>
                 <div class="layui-input-inline">
-                    <input type="text" id="phone" name="phone" required="" lay-verify="phone"
+                    <input type="number" id="phone" required="" lay-verify="phone"
                            autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
-                <label for="username" class="layui-form-label">
+                <label class="layui-form-label">
                     <span class="x-red">*</span>地址
                 </label>
                 <div class="layui-input-inline">
@@ -68,19 +87,19 @@
                 </div>
             </div>
             <div class="layui-form-item">
-                <label for="username" class="layui-form-label">
+                <label for="registerDate" class="layui-form-label">
                     <span class="x-red">*</span>注册时间
                 </label>
                 <div class="layui-input-inline">
-                    <input type="date" id="registerDate" name="registerDate" required="" lay-verify="required"
+                    <input type="datetime-local" id="registerDate" name="registerDate" required="" lay-verify="required"
                            autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label"><span class="x-red">*</span>状态</label>
                 <div class="layui-input-block">
-                    <input type="radio" name="status" title="冻结" >
-                    <input type="radio" name="status" title="解冻" checked="">
+                    <input type="radio" name="status" title="冻结" value="0">
+                    <input type="radio" name="status" title="解冻" value="1" checked="">
                 </div>
             </div>
             <div class="layui-form-item">
@@ -95,7 +114,7 @@
                     6到16个字符
                 </div>
             </div>
-            <div class="layui-form-item">
+           <!-- <div class="layui-form-item">
                 <label for="L_repass" class="layui-form-label">
                     <span class="x-red">*</span>确认密码
                 </label>
@@ -103,25 +122,76 @@
                     <input type="password" id="L_repass" name="repass" required="" lay-verify="repass"
                            autocomplete="off" class="layui-input">
                 </div>
+            </div>-->
+            <div style="margin: auto;width: 100px;" class="layui-form-item">
+                <!--<label for="L_repass" class="layui-form-label">
+                </label>-->
+                <div style="margin: auto;width: 100px;" class="layui-btn" lay-filter="update" onclick="save()">
+                    更新
+                </div>
             </div>
-            <div class="layui-form-item">
-                <label for="L_repass" class="layui-form-label">
-                </label>
-                <button  class="layui-btn" lay-filter="add" lay-submit="">
-                    增加
-                </button>
-            </div>
-        </form>
+        </div>
     </div>
 </div>
-
 <script src="static/layui/lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
-<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
 <script>
+    // let value = {id: sessionStorage.getItem('userId')}// 当前用户id
+    // console.log(value,'队员列表Id值')
+    /**
+     * 图片和队员信息上传更新
+     */
+    function save() {
+        let data ={
+            id:sessionStorage.getItem("userId"),
+            username: $("#username").val(),
+            sex:$("input[type=radio][name=sex]:checked").val(),
+            phone: $("#phone").val(),
+            address: $("#address").val(),
+            createTime: $("#registerDate").val(),
+            status:$("input[type=radio][name=status]:checked").val(),
+            password: $("#L_pass").val()
+        };
+       /* let data = new FormData();
+        let id = sessionStorage.getItem("userId");
+        data.append("id", id);
+        data.append("icon", $("#icon")[0].files[0]);
+        data.append("username", $("#username").val());
+        data.append("sex",$("input[type=radio][name=sex]:checked").val());
+        data.append("phone", $("#phone").val());
+        data.append("address", $("#address").val());
+        data.append("createDate", $("#registerDate").val());
+        data.append("status",$("input[type=radio][name=status]:checked").val());
+        data.append("password", $("#L_pass").val());
+        console.log(data,'dataaaaaaa')*/
+        let result = myPostAjax('/user/player/update',data);
+        /*返回一个结果给页面判断*/
+        if (result.code == 200) {
+            // console.log(result.code,'cnmm')
+            layer.msg('已更新!', {icon: 1, time: 1000}, setTimeout(function () {  //使用  setTimeout（）方法设定定时xxxx毫秒
+                parent.location.reload();
+            }, 1000));
+        } else {
+            layer.msg('失败!', {icon: 2, time: 1000}, setTimeout(function () {
+                location.reload();
+            }, 1000));
+        }
+    }
 
-    let value = {id: sessionStorage.getItem('userId')}// 当前用户id
-    console.log(value)
 
+    /*当前更新图片预览*/
+    function showPlayerEditImg(obj) {
+        var file = $(obj)[0].files[0];
+        if (window.FileReader) {
+            var reader = new FileReader();
+            reader.readAsDataURL(file);
+            //监听文件读取结束后事件
+            reader.onloadend = function (e) {
+                // $(".weui_uploader_file").css("background-image","url("+e.target.result+")");
+                //e.target.result就是最后的路径地址
+                $("#showImgHref").attr("src", e.target.result);
+            };
+        }
+    }
 
 </script>
 <script>layui.use(['form', 'layer'],

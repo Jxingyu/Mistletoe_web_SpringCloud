@@ -19,19 +19,21 @@ function findAll() {
 
 // 循环赋值开始
 function setData(data) {
+    console.log(data,'data')
     let html = '';
     for (let i = 0; i < data.length; i++) {
-        if (data[i].status == 1) {
-            data[i].status = '' + '已启用'
+        if (data[i].status === 1) {
+            data[i].status = '' + '已启用'     
         } else {
             data[i].status = '' + '已冻结'
         }
         ;
         html += '<tr>\n' +
-            '     <td>\n' +
-            '       <input type="checkbox" name="id" value="1"   lay-skin="primary"> \n' +
-            '     </td>\n' +
-            '     <td>' + data[i].id + '</td>\n' +
+            // '     <td >\n' +
+            // '       <input type="checkbox" name="id" value="1"   lay-skin="primary"> \n' +// ID多选
+            // '     </td>\n' +
+            '     <td >' + data[i].id + '</td>\n' +
+            '     <td> <img src="' + 'images' + data[i].icon + '" width="66" height="66"> </td>\n' +
             '     <td>' + data[i].username + '</td>\n' +
             '     <td>' + data[i].role + '</td>\n' +
             '     <td>' + data[i].sex + '</td>\n' +
@@ -48,6 +50,7 @@ function setData(data) {
             '   </tr>'
         // ; console.log(data[i].id+'::data')
     }
+
 
     $("#manageLoopList").html(html);
 
