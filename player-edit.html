@@ -32,7 +32,7 @@
         <div class="layui-form">
             <div class="layui-form-item">
                 <label for="icon" class="layui-form-label">
-                    <span   class="x-red">*</span>头像
+                    <span class="x-red">*</span>头像
                 </label>
                 <div class="layui-input-inline">
                     <div><input type="file" id="icon" name="icon" onchange="showPlayerEditImg(this)"></div>
@@ -114,15 +114,15 @@
                     6到16个字符
                 </div>
             </div>
-           <!-- <div class="layui-form-item">
-                <label for="L_repass" class="layui-form-label">
-                    <span class="x-red">*</span>确认密码
-                </label>
-                <div class="layui-input-inline">
-                    <input type="password" id="L_repass" name="repass" required="" lay-verify="repass"
-                           autocomplete="off" class="layui-input">
-                </div>
-            </div>-->
+            <!-- <div class="layui-form-item">
+                 <label for="L_repass" class="layui-form-label">
+                     <span class="x-red">*</span>确认密码
+                 </label>
+                 <div class="layui-input-inline">
+                     <input type="password" id="L_repass" name="repass" required="" lay-verify="repass"
+                            autocomplete="off" class="layui-input">
+                 </div>
+             </div>-->
             <div style="margin: auto;width: 100px;" class="layui-form-item">
                 <!--<label for="L_repass" class="layui-form-label">
                 </label>-->
@@ -141,29 +141,18 @@
      * 图片和队员信息上传更新
      */
     function save() {
-        let data ={
-            id:sessionStorage.getItem("userId"),
+        let data = {
+            id: sessionStorage.getItem("userId"),
             username: $("#username").val(),
-            sex:$("input[type=radio][name=sex]:checked").val(),
+            sex: $("input[type=radio][name=sex]:checked").val(),
             phone: $("#phone").val(),
             address: $("#address").val(),
             createTime: $("#registerDate").val(),
-            status:$("input[type=radio][name=status]:checked").val(),
+            status: $("input[type=radio][name=status]:checked").val(),
             password: $("#L_pass").val()
         };
-       /* let data = new FormData();
-        let id = sessionStorage.getItem("userId");
-        data.append("id", id);
-        data.append("icon", $("#icon")[0].files[0]);
-        data.append("username", $("#username").val());
-        data.append("sex",$("input[type=radio][name=sex]:checked").val());
-        data.append("phone", $("#phone").val());
-        data.append("address", $("#address").val());
-        data.append("createDate", $("#registerDate").val());
-        data.append("status",$("input[type=radio][name=status]:checked").val());
-        data.append("password", $("#L_pass").val());
-        console.log(data,'dataaaaaaa')*/
-        let result = myPostAjax('/user/player/update',data);
+
+        let result = myPostAjax('/user/player/update', data);
         /*返回一个结果给页面判断*/
         if (result.code == 200) {
             // console.log(result.code,'cnmm')
@@ -175,8 +164,24 @@
                 location.reload();
             }, 1000));
         }
-    }
 
+        // 图片上传
+        var formData = new FormData();
+        let id = sessionStorage.getItem("userId");
+        console.log(id, '图片上传当前ID')
+        formData.append("id", id);
+        formData.append("icon", $("#icon")[0].files[0]);
+        let iconResult = myAjax('/user/player/iconUpdate', formData, 'post', false, false);
+        if (iconResult.code == 200) {
+            layer.msg('已更新!', {icon: 1, time: 1000}, setTimeout(function () {  //使用  setTimeout（）方法设定定时xxxx毫秒
+                parent.location.reload();
+            }, 1000));
+        }
+    }
+    // 用户列表 编辑窗口赋值方法
+    $(function () {
+        findById();
+    })
 
     /*当前更新图片预览*/
     function showPlayerEditImg(obj) {
@@ -193,6 +198,31 @@
         }
     }
 
+    /**
+     * 编辑窗口设值
+     */
+    function findById() {
+        let date = {id: sessionStorage.getItem('userId')};
+        let result = myAjax('/user/player/findPlayerById', date, 'get')
+        // console.log(result, 'findById');
+        let result1 = result.result;
+        setData(result1);
+        // console.log(result.productEntity,'val8520');
+    }
+
+
+    function setData(result1) {
+        console.log(result1,'result1')
+        $("#showImgHref").attr("src", 'img' + result1.imgHref);
+        $("#username").val(result1.username);//右边的值(username)，数据库查询的值
+        $("#sex").val(result1.sex);//右边的值(username)，数据库查询的值
+        $("#phone").val(result1.phone);//右边的值(username)，数据库查询的值
+        $("#address").val(result1.address);//右边的值(username)，数据库查询的值
+        $("#registerDate").val(result1.createTime);//右边的值(username)，数据库查询的值
+        $("#status").val(result1.status);//右边的值(username)，数据库查询的值
+        $("input[name = 'isShow'][value=" + result1.isShow + "]").attr("checked", true);
+        // $("#sort")[name='sort'] [value=" + data.sort + "]).prop("checked", true);   //设置Select的Text值为jQuery的项选中值
+    }
 </script>
 <script>layui.use(['form', 'layer'],
     function () {

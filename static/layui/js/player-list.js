@@ -19,7 +19,7 @@ function findAll() {
 
 // 循环赋值开始
 function setData(data) {
-    console.log(data,'data')
+    // console.log(data,'data')
     let html = '';
     for (let i = 0; i < data.length; i++) {
         if (data[i].status === 1) {
@@ -28,12 +28,14 @@ function setData(data) {
             data[i].status = '' + '已冻结'
         }
         ;
+        // 队员头像上传地址
+        let imgPath = "static/layui/images/"
         html += '<tr>\n' +
             // '     <td >\n' +
             // '       <input type="checkbox" name="id" value="1"   lay-skin="primary"> \n' +// ID多选
             // '     </td>\n' +
             '     <td >' + data[i].id + '</td>\n' +
-            '     <td> <img src="' + 'images' + data[i].icon + '" width="66" height="66"> </td>\n' +
+            '     <td> <img src="'+imgPath + data[i].icon + '" width="66" height="66"></td>\n' +
             '     <td>' + data[i].username + '</td>\n' +
             '     <td>' + data[i].role + '</td>\n' +
             '     <td>' + data[i].sex + '</td>\n' +
