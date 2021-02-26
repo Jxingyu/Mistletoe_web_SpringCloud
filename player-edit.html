@@ -165,19 +165,25 @@
             }, 1000));
         }
 
-        // 图片上传
+        // 单文件 图片上传
         var formData = new FormData();
         let id = sessionStorage.getItem("userId");
-        console.log(id, '图片上传当前ID')
+        // console.log(id, '图片上传当前ID')
         formData.append("id", id);
         formData.append("icon", $("#icon")[0].files[0]);
-        let iconResult = myAjax('/user/player/iconUpdate', formData, 'post', false, false);
-        if (iconResult.code == 200) {
-            layer.msg('已更新!', {icon: 1, time: 1000}, setTimeout(function () {  //使用  setTimeout（）方法设定定时xxxx毫秒
-                parent.location.reload();
-            }, 1000));
+        // let size =($("#icon")[0].files[0].size == undefined ? 0 : $("#icon")[0].files[0].size)
+        let icon = formData.get("icon");
+        console.log(icon.size,'文件大小')
+        if (icon.size > 1) { // 文件size大于1 进判断(防止undefined)
+            let iconResult = myAjax('/user/player/iconUpdate', formData, 'post', false, false);
+            if (iconResult.code == 200) {
+                layer.msg('已更新!', {icon: 1, time: 1000}, setTimeout(function () {  //使用  setTimeout（）方法设定定时xxxx毫秒
+                    parent.location.reload();
+                }, 1000));
+            }
         }
     }
+
     // 用户列表 编辑窗口赋值方法
     $(function () {
         findById();
@@ -210,17 +216,18 @@
         // console.log(result.productEntity,'val8520');
     }
 
+    // 队员头像显示地址
+    let imgPath = "static/layui/images/"
 
     function setData(result1) {
-        console.log(result1,'result1')
-        $("#showImgHref").attr("src", 'img' + result1.imgHref);
-        $("#username").val(result1.username);//右边的值(username)，数据库查询的值
-        $("#sex").val(result1.sex);//右边的值(username)，数据库查询的值
-        $("#phone").val(result1.phone);//右边的值(username)，数据库查询的值
-        $("#address").val(result1.address);//右边的值(username)，数据库查询的值
-        $("#registerDate").val(result1.createTime);//右边的值(username)，数据库查询的值
-        $("#status").val(result1.status);//右边的值(username)，数据库查询的值
-        $("input[name = 'isShow'][value=" + result1.isShow + "]").attr("checked", true);
+        // console.log(result1,'编辑窗口值')
+        $("#showImgHref").attr("src", imgPath + result1.icon);
+        $("#username").val(result1.username);
+        $("input[name = 'sex'][value=" + result1.sex + "]").attr("checked", true);
+        $("#phone").val(result1.phone);
+        $("#address").val(result1.address);
+        $("#registerDate").val(result1.createTime);
+        $("input[name = 'status'][value=" + result1.status + "]").attr("checked", true);
         // $("#sort")[name='sort'] [value=" + data.sort + "]).prop("checked", true);   //设置Select的Text值为jQuery的项选中值
     }
 </script>

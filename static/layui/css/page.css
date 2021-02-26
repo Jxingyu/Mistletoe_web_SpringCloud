@@ -1,0 +1,64 @@
+/*固定page用*/
+.Pagebody {
+    height: calc(100vh - 185px);
+}
+
+.page {
+    bottom: 0;
+    text-align: center;
+    /*height: calc(100vh - 185px);*/
+    border: 1px solid rgb(117, 117, 117);
+    margin: 0px 20px 0px 20px;
+}
+
+.page > div {
+    line-height: 24px;
+}
+
+.page > div > a {
+    border: 1px solid rgb(117, 117, 117);
+}
+
+.page > div > a:hover {
+    color: white;
+    border: 1px solid rgb(117, 117, 117);
+}
+
+.page a:hover {
+    background: orange;
+    color: #fff;
+    display: inline-block;
+    color: #888;
+    padding: 5px;
+    min-width: 15px;
+    border: 1px solid #E2E2E2;
+
+}
+
+.page span {
+    display: inline-block;
+    padding: 5px;
+    min-width: 15px;
+    /*border: 1px solid #E2E2E2;*/
+}
+
+.page span.current {
+    display: inline-block;
+
+    padding: 5px;
+    min-width: 15px;
+    /*border: 1px solid orange;*/
+}
+
+.page .pagination li {
+    display: inline-block;
+    margin-right: 5px;
+    text-align: center;
+}
+
+.page .pagination li.active span {
+    background: orange;
+    color: #fff;
+    border: 1px solid orange;
+
+}

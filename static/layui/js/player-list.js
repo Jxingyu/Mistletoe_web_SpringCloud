@@ -5,15 +5,21 @@ let NowUserId = 0;//初始化一个点击后当前用户id
 let status = 0;//初始化冻结状态id
 function findAll() {
     let data = {
-        username: $("username").val(),
-        role: $("role").val(),
-        sex: $("sex").val(),
-        phone: $("phone").val(),
-        address: $("address").val(),
-        createTime: $("createTime").val(),
-        editTime: $("editTime").val()
+        username: $("#username").val(),
+        role: $("#role").val(),
+        sex: $("#sex").val(),
+        phone: $("#phone").val(),
+        address: $("#address").val(),
+        createTime: $("#createTime").val(),
+        editTime: $("#editTime").val(),
+        curPage: $("#curPage").val(),
+        pageSize: $("#pageSize").val(),
+        startDate:$("#start").val(),
+        endDate:$("#end").val()
     };
+    // console.log(data.startDate,'startDate')
     let result = myAjax('/user/findAll', data, 'get');
+    $("#totalPage").html(result.totalCount);
     setData(result.result);// 赋值用
 };
 
@@ -46,7 +52,7 @@ function setData(data) {
             '     <td>' + data[i].status + '</td>' +
             '<td class="td-manage">\n' +
             '       <a onclick="xadmin.open(\'编辑\',\'player-edit.html\',600,400)" href="javascript:;">' +
-            '         <div  onclick="alterEditWindows(' + data[i].id + ')"style="color:#ff4500;">编辑</div>\n' +
+            '         <div  onclick="alterEditWindows(' + data[i].id + ')"style="color:#ff4500;font-weight: bold">编辑</div>\n' +
             '       </a>\n' +
             '     </td>\n' +
             '   </tr>'
