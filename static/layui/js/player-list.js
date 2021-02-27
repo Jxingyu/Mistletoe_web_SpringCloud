@@ -18,7 +18,7 @@ function findAll() {
         endDate:$("#end").val()
     };
     // console.log(data.startDate,'startDate')
-    let result = myAjax('/user/findAll', data, 'get');
+    let result = myAjax('/user/findPlayerAll', data, 'get');
     $("#totalPage").html(result.totalCount);
     setData(result.result);// 赋值用
 };

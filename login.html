@@ -205,6 +205,23 @@
 
                 let result = myPostAjax('/login/check', data);
 
+                if (result.code == 200) {
+                    // if (result.message == 'TokenSuccess') {// 登录返回Token成功
+                  /*  console.log(result.code);
+                    console.log(result.result);
+                    console.log(result.result.bearer,222222);
+                    console.log(result.result.Authorization,222222);
+                    console.log(result.result.generaToken,222222);*/
+                    localStorage.setItem("bearer",result.result.bearer)
+                    localStorage.setItem("Authorization",result.result.Authorization)
+                    localStorage.setItem("generaToken",result.result.generaToken)
+                    sessionStorage.setItem("username", data.username)// 存入用户名
+                    layer.msg('登录成功!', {icon: 1, time: 500}, setTimeout(function () {  //使用  setTimeout（）方法设定定时2000毫秒
+                        window.location = 'manage.html';
+                        // window.open(projectName + "/manage.html")// 登录成功去到管理页面
+                    }, 800));
+                    // }
+                }
                 if (result.result == 'Account has been frozen 24 h') {
                     layer.msg('输错三次,已被冻结24小时,请与系统管理员联系!', {icon: 2, time: 2500}, setTimeout(function () {  //使用  setTimeout（）方法设定定时2000毫秒
                     }, 3000));
@@ -218,16 +235,6 @@
                 if (result.result == 'CaptchaError') {
                     layer.msg('验证码错误!', {icon: 2, time: 1500}, setTimeout(function () {  //使用  setTimeout（）方法设定定时2000毫秒
                     }, 2000));
-                }
-                if (result != null) {
-                    if (result.result == 'TokenSuccess') {// 登录返回Token成功
-                        console.log(result.result);
-                        sessionStorage.setItem("username", data.username)// 存入用户名
-                        layer.msg('登录成功!', {icon: 1, time: 500}, setTimeout(function () {  //使用  setTimeout（）方法设定定时2000毫秒
-                            window.location = 'manage.html';
-                            // window.open(projectName + "/manage.html")// 登录成功去到管理页面
-                        }, 800));
-                    }
                 }
             };
 

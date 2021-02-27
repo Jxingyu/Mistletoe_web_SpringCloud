@@ -2,9 +2,9 @@
 let URl = 'http://localhost:8081';
 let projectName = '/mistletoe';
 //token
-let TOKEN = localStorage.getItem("token");
-let TOKEN_HEAD = localStorage.getItem("tokenHead");
-let AUTHORIZATION = TOKEN_HEAD + " " + TOKEN;
+let bearer = localStorage.getItem("bearer");
+let generaToken = localStorage.getItem("generaToken");
+let AUTHORIZATION = bearer + " " + generaToken;
 //请求头
 const HEADERS = {
     Authorization: AUTHORIZATION
@@ -67,6 +67,7 @@ function myPostAjax(url, data) {
         contentType: 'application/json;charset=UTF-8',
         type: "post",
         dataType: 'json',
+        headers: HEADERS,
         xhrFields: {
             withCredentials: true //允许跨域带Cookie
         },
