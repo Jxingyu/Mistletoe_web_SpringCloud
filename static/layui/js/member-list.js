@@ -9,8 +9,7 @@ function findAll() {
         sex: $("sex").val(),
         phone: $("phone").val(),
         address: $("address").val(),
-        createTime: $("createTime").val(),
-        editTime: $("editTime").val()
+        createTime: $("createTime").val()
     };
     let result = myAjax('/user/findAll', data, 'get');
     setData(result.result);// 赋值用
@@ -31,7 +30,6 @@ function setData(data) {
             '     <td>' + data[i].phone + '</td>\n' +
             '     <td>' + data[i].address + '</td>\n' +
             '     <td>' + data[i].createTime + '</td>\n' +
-            '     <td>' + data[i].editTime + '</td>\n' +
             '     <td class="td-manage">\n' +
             '       <a onclick="xadmin.open(\'编辑\',\'member-edit.html\',600,400)" href="javascript:;">' +
             '         <div  onclick="alterEditWindows(' + data[i].id + ')"style="color:#ff4500;">角色分配</div>\n' +

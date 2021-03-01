@@ -155,6 +155,11 @@
                             lay-filter="login">登 入
                     </button>
                 </div>
+                <div class="layui-form-item">
+                    <div onclick="openRegister()" class="layui-btn layui-btn layui-btn-normal layui-btn-fluid"
+                         lay-filter="login">注 册
+                    </div>
+                </div>
             </form>
         </div>
     </div>
@@ -164,6 +169,12 @@
 <script src="static/layui/lib/jq-module/jquery.particleground.min.js" charset="utf-8"></script>
 
 <script>
+    // 注册页面
+    function openRegister(){
+        layer.msg('欢迎注册!', {icon: 1, time: 500}, setTimeout(function () {  //使用  setTimeout（）方法设定定时2000毫秒
+            window.location = 'register.html';
+        }, 800));
+    }
     layui.use(['form'], function () {
         var form = layui.form,
             layer = layui.layer;
@@ -207,14 +218,14 @@
 
                 if (result.code == 200) {
                     // if (result.message == 'TokenSuccess') {// 登录返回Token成功
-                  /*  console.log(result.code);
-                    console.log(result.result);
-                    console.log(result.result.bearer,222222);
-                    console.log(result.result.Authorization,222222);
-                    console.log(result.result.generaToken,222222);*/
-                    localStorage.setItem("bearer",result.result.bearer)
-                    localStorage.setItem("Authorization",result.result.Authorization)
-                    localStorage.setItem("generaToken",result.result.generaToken)
+                    /*  console.log(result.code);
+                      console.log(result.result);
+                      console.log(result.result.bearer,222222);
+                      console.log(result.result.Authorization,222222);
+                      console.log(result.result.generaToken,222222);*/
+                    localStorage.setItem("bearer", result.result.bearer)
+                    localStorage.setItem("Authorization", result.result.Authorization)
+                    localStorage.setItem("generaToken", result.result.generaToken)
                     sessionStorage.setItem("username", data.username)// 存入用户名
                     layer.msg('登录成功!', {icon: 1, time: 500}, setTimeout(function () {  //使用  setTimeout（）方法设定定时2000毫秒
                         window.location = 'manage.html';
@@ -222,22 +233,24 @@
                     }, 800));
                     // }
                 }
+
                 if (result.result == 'Account has been frozen 24 h') {
                     layer.msg('输错三次,已被冻结24小时,请与系统管理员联系!', {icon: 2, time: 2500}, setTimeout(function () {  //使用  setTimeout（）方法设定定时2000毫秒
                     }, 3000));
                     console.log(result.result);
-                }
-                ;
-                if (result.result == 'failed') {
+                } else if (result.result == 'failed') {
                     layer.msg('密码或账号错误!', {icon: 2, time: 1500}, setTimeout(function () {  //使用  setTimeout（）方法设定定时2000毫秒
                     }, 2000));
-                }
-                if (result.result == 'CaptchaError') {
+                } else if (result.result == 'CaptchaError') {
                     layer.msg('验证码错误!', {icon: 2, time: 1500}, setTimeout(function () {  //使用  setTimeout（）方法设定定时2000毫秒
                     }, 2000));
+                } else if (result.code == 403) {
+                    layer.msg('权限不足!', {icon: 2, time: 500}, setTimeout(function () {  //使用  setTimeout（）方法设定定时2000毫秒
+                        window.location = 'manage.html';
+                    }, 800));
+                    return;
                 }
             };
-
             return false;
         });
     });
