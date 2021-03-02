@@ -10,6 +10,7 @@
         <link rel="stylesheet" href="./css/xadmin.css">
         <script src="./lib/layui/layui.js" charset="utf-8"></script>
         <script type="text/javascript" src="./js/xadmin.js"></script>
+        <script src="static/layui/js/team-list.js"></script>
         <!--[if lt IE 9]>
           <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
           <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
@@ -58,16 +59,17 @@
                                     <input type="checkbox" name=""  lay-skin="primary">
                                   </th>
                                   <th>ID</th>
-                                  <th>登录名</th>
-                                  <th>手机</th>
-                                  <th>邮箱</th>
-                                  <th>角色</th>
-                                  <th>加入时间</th>
-                                  <th>状态</th>
-                                  <th>操作</th>
+                                  <th>团队编号</th>
+                                  <th>团队名称</th>
+                                  <th>队员数</th>
+                                  <th>队长</th>
+                                  <th>助理</th>
+                                  <th>教练</th>
+                                  <th>创建时间</th>
+                                  <th></th>
                               </thead>
-                              <tbody>
-                                <tr>
+                              <tbody id="teamLoopList">
+                                <!--<tr>
                                   <td>
                                     <input type="checkbox" name=""  lay-skin="primary">
                                   </td>
@@ -90,7 +92,7 @@
                                       <i class="layui-icon">&#xe640;</i>
                                     </a>
                                   </td>
-                                </tr>
+                                </tr>-->
                               </tbody>
                             </table>
                         </div>

@@ -118,7 +118,7 @@
             <div style="margin: auto;width: 100px;" class="layui-form-item">
                 <!--<label for="L_repass" class="layui-form-label">
                 </label>-->
-                <div style="margin: auto;width: 100px;" class="layui-btn" lay-filter="update" onclick="save()">
+                <div style="margin: auto;width: 100px;" class="layui-btn" lay-filter="update" onclick="register()">
                     点击注册
                 </div>
             </div>
@@ -143,33 +143,49 @@
             status: $("input[type=radio][name=status]:checked").val(),
             password: $("#L_pass").val()
         };
-        let result = myPostAjax('/register/check', data);
-        /*返回一个结果给页面判断*/
-        if (result.code == 200) {
-            layer.msg('已更新!', {icon: 1, time: 1000}, setTimeout(function () {//使用setTimeout（）方法设定定时xxxx毫秒
-                parent.location.reload();
-            }, 1000));
-        } else {
-            layer.msg('失败!', {icon: 2, time: 1000}, setTimeout(function () {
-                location.reload();
-            }, 1000));
-        }
+        if (data.username !== null && data.username !== ''
+            && data.phone !== null && data.phone !== '' && data.password !== null && data.password !== ''
+            && data.createTime !== null && data.createTime !== '' && data.address !== null && data.address !== '') {
+            let result = myPostAjax('/register/check', data);
+            /*返回一个结果给页面判断*/
+            if (result.code == 200) {
+                let newID = result.data.data.NewID;
+                localStorage.setItem("newID", newID)// 当前注册用户id 用于追加图片上传
+                //单文件图片上传
+                var formData = new FormData();
+                let id = localStorage.getItem("newID");
+                //console.log(id,'图片上传当前ID')
+                formData.append("id", id);
+                formData.append("icon", $("#icon")[0].files[0]);
+                let icon = formData.get("icon");
+                console.log(icon.size, '文件大小')
 
-        //单文件图片上传
-        var formData = new FormData();
-        //letid=sessionStorage.getItem("userId");
-        //console.log(id,'图片上传当前ID')
-        //formData.append("id",id);
-        formData.append("icon", $("#icon")[0].files[0]);
-        let icon = formData.get("icon");
-        console.log(icon.size, '文件大小')
-        if (icon.size > 1) {//文件size大于1进判断(防止undefined)
-            let iconResult = myAjax('/register/iconUpdate', formData, 'post', false, false);
-            if (iconResult.code == 200) {
-                layer.msg('已更新!', {icon: 1, time: 1000}, setTimeout(function () {//使用setTimeout（）方法设定定时xxxx毫秒
-                    parent.location.reload();
+                if (icon.size > 1 && icon.size < 1048576) {//文件size大于1进判断(防止undefined)
+                    let iconResult = myAjax('/user/registerIconUpdate', formData, 'post', false, false);
+                    if (iconResult.code == 200) {
+                        layer.msg('注册成功!', {icon: 1, time: 1000}, setTimeout(function () {//使用setTimeout（）方法设定定时xxxx毫秒
+                            parent.location.reload();
+                        }, 1000));
+                    }
+                } else {
+                    layer.msg('请检查图片大小,请重新选择!', {icon: 2, time: 2000}, setTimeout(function () {//使用setTimeout（）方法设定定时xxxx毫秒
+                    }, 2000));
+                    return;
+                }
+                layer.msg('即将跳转到登录页面!', {icon: 1, time: 1000}, setTimeout(function () {//使用setTimeout（）方法设定定时xxxx毫秒
+                    window.location = 'login.html';
+                }, 1000));
+            } else {
+                layer.msg('失败!', {icon: 2, time: 1000}, setTimeout(function () {
+                    location.reload();
+                    return;
                 }, 1000));
             }
+        } else {
+            layer.msg('请补全正确的个人信息!', {icon: 2, time: 1000}, setTimeout(function () {
+                location.reload();
+                return;
+            }, 1000));
         }
     }
 
