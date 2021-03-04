@@ -39,8 +39,6 @@ function setData(data) {
             '   </tr>'
         // ; console.log(data[i].id+'::data')
     }
-
-
     $("#manageLoopList").html(html);
 }
 

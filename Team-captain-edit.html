@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html class="x-admin-sm">
+<head>
+    <meta charset="UTF-8">
+    <title>欢迎页面-X-admin2.2</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="static/layui/lib/layui-v2.5.5/css/layui.css">
+    <link rel="stylesheet" href="./css/font.css">
+    <link rel="stylesheet" href="./css/xadmin.css">
+    <script src="static/layui/js/common/jQuery .js"></script>
+    <script src="static/layui/js/common/myAjax.js"></script>
+    <script type="text/javascript" src="./lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="./js/xadmin.js"></script>
+
+
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]--></head>
+
+<body>
+
+<div id="text1" class="demo-transfer">
+
+</div>
+
+
+<script src="static/layui/lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script>
+
+    let rightdata = [];
+    let data = [];
+    layui.use(['transfer', 'layer', 'util'], function () {
+
+        var $ = layui.$
+            , transfer = layui.transfer
+
+        let value = {id: localStorage.getItem('TeamNumberCaptain')}//numbers 队员，队长 ，团队 区分用Id   当前团队Id
+        let result = myAjax('/utr/select/captain', 'get');// 候选队长
+        let datax = result.result;
+
+        let Result = myAjax('/utr/select/NowCaptain', value, 'get');// 查询当前选中团队的 当前队长
+       let datas = Result.result;
+        console.log(datas.length)
+
+        let utrResult = myAjax('/utr/selectUcr', value, 'get')// 查询队员关联表数据 更新rpr表用
+        console.log(utrResult,999999)
+        for (let i = 0; i < datas.length; i++) {
+            rightdata.push(datas[i].id);// 循环得到权限id
+        }
+        //基础效果
+        transfer.render({
+            elem: '#text1'
+            , title: ['候选队长', '当前队长']  //自定义标题
+            , data: datax
+            , height: 800 //定义高度
+            , value: rightdata
+            , parseData: function (sb) {
+                // console.log(sb.name, 'sb name')
+                return {
+                    "value": sb.id //数据值
+                    , "title": sb.username //数据标题
+                    , "disabled": sb.disabled  //是否禁用
+                    , "checked": sb.checked //是否选中
+                }
+            }
+            //穿梭时候的回调
+            , onchange: function (obj, index) {
+                obj.numbers = value.id; // 当前团队id
+                for (let i = 0; i < utrResult.length; i++) {
+                    obj.utr = utrResult[i].id
+                }
+                let arr = ['左边', '右边'];
+                layer.alert('来自 <strong>' + arr[index] + '</strong> 的数据：' + JSON.stringify(obj)); //获得被穿梭时的数据 // 弹出框
+
+                let data = new Array();
+                for (let i = 0; i < obj.length; i++) {
+                    var dataArray = new Object();
+                    dataArray.numbers = value.id;
+                    dataArray.userId = obj[i].value;
+                    data.push(dataArray);
+                }
+
+                console.log(data[0], '做插入数据')
+
+                //左边传递到右边的数据
+                if (arr[index] == '左边') {
+                    let result = myPostAjax('/ucr/update/NowCaptain', data)// 更新角色 权限 rpr 关联表
+
+                    if (result.result !== 0) {
+                        // parent.layui.table.reload("currentTableId");
+                        layer.msg('已更新!', {icon: 1, time: 1000}, setTimeout(function () {  //使用  setTimeout（）方法设定定时2000毫秒
+                            location.reload();
+
+                        }, 1000));
+                        timeOut();
+
+                        function timeOut() {
+                            setTimeout(function () {
+                                parent.location.reload();//刷新上级窗口 逻辑正确 未成功
+                            }, 1500)
+                        }
+                    } else {
+                        layer.msg('更新失败!', {icon: 2, time: 1000});
+                    }
+                } else {//右边数据移至左边 修改功能
+                    let result = myPostAjax('/utr/deleteUtrIdInUtr', data)
+                    if (result.code == 200) {
+                        layer.msg('已删除!', {icon: 1, time: 1000}, setTimeout(function () {  //使用  setTimeout（）方法设定定时2000毫秒
+                            location.reload();
+                        }, 1000));
+                    }
+                }
+            }
+
+        });
+
+    });
+
+
+</script>
+<div class="layui-fluid">
+    <div class="layui-row">
+        <form class="layui-form">
+            <div class="layui-form-item">
+                <button class="layui-btn" lay-filter="add" lay-submit="" style="margin-left: 250px;">增加</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+</body>
+
+</html>
