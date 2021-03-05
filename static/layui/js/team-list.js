@@ -28,10 +28,10 @@ function setData(data) {
             '       <a style="width: 53px;" onclick="xadmin.open(\'队长\',\'Team-captain-edit.html\',600,400)" href="javascript:;">' +
             '         <div  onclick="CaptainEditWindows(' + data[i].numbers + ')" style="margin-top: 10px;"><span style="border:1px solid rgb(220,220,220);background: rgb(242,242,242);width: 60px;">队长</span></div>\n' +
             '       </a>\n' +
-            '       <a style="width: 53px;" onclick="xadmin.open(\'编辑\',\'team-edit.html\',600,400)" href="javascript:;">' +
+            '       <a style="width: 53px;" onclick="xadmin.open(\'编辑\',\'Team-editTwo.html\',600,400)" href="javascript:;">' +
             '         <div  onclick="alterEditWindows(' + data[i].id + ')" style="color:#ff4500;margin-top: 10px;"><span style="border:1px solid rgb(220,220,220);background: rgb(242,242,242);width: 60px;">编辑</span></div>\n' +
             '       </a>\n' +
-            '       <a style="width: 53px;" onclick="xadmin.open(\'删除\',\'team-edit.html\',600,400)" href="javascript:;">' +
+            '       <a style="width: 53px;" onclick="xadmin.open(\'删除\',\'team-delete.html\',600,400)" href="javascript:;">' +
             '         <div  onclick="DeleteEditWindows(' + data[i].id + ')"style="color:#ff4500;margin-top: 10px;"><span style="border:1px solid rgb(220,220,220);background: rgb(242,242,242);width: 60px;">删除</span></div>\n' +
             '       </a>\n' +
             '     </td>\n' +
@@ -58,5 +58,13 @@ function CaptainEditWindows(numbers) {
     localStorage.setItem('TeamNumberCaptain', numbers);//通过这个id找寻其他数据
 
 }
+/*弹出窗口 团队Id*/
+function alterEditWindows(id) {
+    // 团队编号
+    let teamId = id;
+    localStorage.setItem('teamId', teamId);//通过这个id找寻其他数据
+
+}
+
 
 

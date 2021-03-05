@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html class="x-admin-sm">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="static/layui/lib/layui-v2.5.5/css/layui.css">
+    <link rel="stylesheet" href="./css/font.css">
+    <link rel="stylesheet" href="./css/xadmin.css">
+
+
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]--></head>
+<script src="static/layui/js/common/jQuery .js"></script>
+<script src="static/layui/js/common/myAjax.js"></script>
+<script type="text/javascript" src="./lib/layui/layui.js" charset="utf-8"></script>
+<script type="text/javascript" src="./js/xadmin.js"></script>
+
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<body>
+<div class="layui-fluid">
+    <div class="layui-row" style="width: 450px;margin: auto;">
+        <div class="layui-form">
+            <div class="layui-form-item">
+                <label for="numbers" class="layui-form-label">
+                    <span class="x-red">*</span>团队编号
+                </label>
+                <div class="layui-input-inline">
+                    <input type="number" id="numbers" required="" lay-verify="phone"
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="count" class="layui-form-label">
+                    <span class="x-red">*</span>队员数
+                </label>
+                <div class="layui-input-inline">
+                    <input type="number" id="count" required="" lay-verify="phone"
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="captain" class="layui-form-label">
+                    <span class="x-red">*</span>队长
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="captain" name="captain" required="" lay-verify="required"
+                           autocomplete="off" class="layui-input">
+                </div>
+                <div class="layui-form-mid layui-word-aux">
+                    <span class="x-red">*</span>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span class="x-red">*</span>性别</label>
+                <div class="layui-input-block">
+                    <input type="radio" name="sex" lay-skin="primary" title="男" value="男">
+                    <input type="radio" name="sex" lay-skin="primary" title="女" value="女">
+                    <input type="radio" name="sex" lay-skin="primary" title="保密" value="保密" checked="">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="phone" class="layui-form-label">
+                    <span class="x-red">*</span>手机
+                </label>
+                <div class="layui-input-inline">
+                    <input type="number" id="phone" required="" lay-verify="phone"
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">
+                    <span class="x-red">*</span>地址
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="address" name="address" required="" lay-verify="required"
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="registerDate" class="layui-form-label">
+                    <span class="x-red">*</span>注册时间
+                </label>
+                <div class="layui-input-inline">
+                    <input type="datetime-local" id="registerDate" name="registerDate" required="" lay-verify="required"
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span class="x-red">*</span>状态</label>
+                <div class="layui-input-block">
+                    <input type="radio" name="status" title="冻结" value="0">
+                    <input type="radio" name="status" title="解冻" value="1" checked="">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="L_pass" class="layui-form-label">
+                    <span class="x-red">*</span>密码
+                </label>
+                <div class="layui-input-inline">
+                    <input type="password" id="L_pass" name="pass" required="" lay-verify="pass"
+                           autocomplete="off" class="layui-input">
+                </div>
+                <div class="layui-form-mid layui-word-aux">
+                    6到16个字符
+                </div>
+            </div>
+            <div style="margin: auto;width: 100px;" class="layui-form-item">
+                <!--<label for="L_repass" class="layui-form-label">
+                </label>-->
+                <div style="margin: auto;width: 100px;" class="layui-btn" lay-filter="update" onclick="save()">
+                    更新
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="static/layui/lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
+<script>
+    // let value = {id: sessionStorage.getItem('userId')}// 当前用户id
+    // console.log(value,'队员列表Id值')
+    /**
+     * 图片和队员信息上传更新
+     */
+    function save() {
+        let data = {
+            id: sessionStorage.getItem("userId"),
+            username: $("#username").val(),
+            sex: $("input[type=radio][name=sex]:checked").val(),
+            phone: $("#phone").val(),
+            address: $("#address").val(),
+            createTime: $("#registerDate").val(),
+            status: $("input[type=radio][name=status]:checked").val(),
+            password: $("#L_pass").val()
+        };
+
+        let result = myPostAjax('/user/player/update', data);
+        /*返回一个结果给页面判断*/
+        if (result.code == 200) {
+            // console.log(result.code,'cnmm')
+            layer.msg('已更新!', {icon: 1, time: 1000}, setTimeout(function () {  //使用  setTimeout（）方法设定定时xxxx毫秒
+                parent.location.reload();
+            }, 1000));
+        } else {
+            layer.msg('失败!', {icon: 2, time: 1000}, setTimeout(function () {
+                location.reload();
+            }, 1000));
+        }
+
+        // 单文件 图片上传
+        var formData = new FormData();
+        let id = sessionStorage.getItem("userId");
+        // console.log(id, '图片上传当前ID')
+        formData.append("id", id);
+        formData.append("icon", $("#icon")[0].files[0]);
+        // let size =($("#icon")[0].files[0].size == undefined ? 0 : $("#icon")[0].files[0].size)
+        let icon = formData.get("icon");
+        console.log(icon.size,'文件大小')
+        if (icon.size > 1) { // 文件size大于1 进判断(防止undefined)
+            let iconResult = myAjax('/user/player/iconUpdate', formData, 'post', false, false);
+            if (iconResult.code == 200) {
+                layer.msg('已更新!', {icon: 1, time: 1000}, setTimeout(function () {  //使用  setTimeout（）方法设定定时xxxx毫秒
+                    parent.location.reload();
+                }, 1000));
+            }
+        }
+    }
+
+    // 用户列表 编辑窗口赋值方法
+    $(function () {
+        findById();
+    })
+
+    /*当前更新图片预览*/
+    function showPlayerEditImg(obj) {
+        var file = $(obj)[0].files[0];
+        if (window.FileReader) {
+            var reader = new FileReader();
+            reader.readAsDataURL(file);
+            //监听文件读取结束后事件
+            reader.onloadend = function (e) {
+                // $(".weui_uploader_file").css("background-image","url("+e.target.result+")");
+                //e.target.result就是最后的路径地址
+                $("#showImgHref").attr("src", e.target.result);
+            };
+        }
+    }
+
+    /**
+     * 编辑窗口设值
+     */
+    function findById() {
+        let date = {id: sessionStorage.getItem('userId')};
+        let result = myAjax('/user/player/findPlayerById', date, 'get')
+        // console.log(result, 'findById');
+        let result1 = result.result;
+        setData(result1);
+        // console.log(result.productEntity,'val8520');
+    }
+
+    // 队员头像显示地址
+    let imgPath = "static/layui/images/"
+
+    function setData(result1) {
+        // console.log(result1,'编辑窗口值')
+        $("#showImgHref").attr("src", imgPath + result1.icon);
+        $("#username").val(result1.username);
+        $("input[name = 'sex'][value=" + result1.sex + "]").attr("checked", true);
+        $("#phone").val(result1.phone);
+        $("#address").val(result1.address);
+        $("#registerDate").val(result1.createTime);
+        $("input[name = 'status'][value=" + result1.status + "]").attr("checked", true);
+        // $("#sort")[name='sort'] [value=" + data.sort + "]).prop("checked", true);   //设置Select的Text值为jQuery的项选中值
+    }
+</script>
+<script>layui.use(['form', 'layer'],
+    function () {
+        $ = layui.jquery;
+        var form = layui.form,
+            layer = layui.layer;
+
+        //监听提交
+        form.on('submit(add)',
+            function (data) {
+                console.log(data);
+                //发异步，把数据提交给php
+                layer.alert("增加成功", {
+                        icon: 6
+                    },
+                    function () {
+                        // 获得frame索引
+                        var index = parent.layer.getFrameIndex(window.name);
+                        //关闭当前frame
+                        parent.layer.close(index);
+                    });
+                return false;
+            });
+    });</script>
+<script>var _hmt = _hmt || [];
+(function () {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();</script>
+</body>
+
+</html>
