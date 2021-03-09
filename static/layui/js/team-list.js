@@ -3,7 +3,7 @@ $(function () {
 })
 
 function findAlls() {
-
+    let value = {id: localStorage.getItem('TeamNumber')}// 队员，队长 ，团队 区分用Id   当前团队Id
     let result = myAjax('/team/findTeamAll', '', 'get');
     setData(result.data);// 赋值用
 };
@@ -29,10 +29,10 @@ function setData(data) {
             '         <div  onclick="CaptainEditWindows(' + data[i].numbers + ')" style="margin-top: 10px;"><span style="border:1px solid rgb(220,220,220);background: rgb(242,242,242);width: 60px;">队长</span></div>\n' +
             '       </a>\n' +
             '       <a style="width: 53px;" onclick="xadmin.open(\'编辑\',\'Team-editTwo.html\',600,400)" href="javascript:;">' +
-            '         <div  onclick="alterEditWindows(' + data[i].id + ')" style="color:#ff4500;margin-top: 10px;"><span style="border:1px solid rgb(220,220,220);background: rgb(242,242,242);width: 60px;">编辑</span></div>\n' +
+            '         <div  onclick="alterEditWindows(' + data[i].numbers + ')" style="color:#ff4500;margin-top: 10px;"><span style="border:1px solid rgb(220,220,220);background: rgb(242,242,242);width: 60px;">编辑</span></div>\n' +
             '       </a>\n' +
-            '       <a style="width: 53px;" onclick="xadmin.open(\'删除\',\'team-delete.html\',600,400)" href="javascript:;">' +
-            '         <div  onclick="DeleteEditWindows(' + data[i].id + ')"style="color:#ff4500;margin-top: 10px;"><span style="border:1px solid rgb(220,220,220);background: rgb(242,242,242);width: 60px;">删除</span></div>\n' +
+            '       <a style="width: 53px;" " href="javascript:;">' +
+            '         <div  onclick="DeleteEditWindows(' + data[i].numbers + ')"style="color:#ff4500;margin-top: 10px;"><span style="border:1px solid rgb(220,220,220);background: rgb(242,242,242);width: 60px;">删除</span></div>\n' +
             '       </a>\n' +
             '     </td>\n' +
             '   </tr>'
@@ -59,10 +59,33 @@ function CaptainEditWindows(numbers) {
 
 }
 /*弹出窗口 团队Id*/
-function alterEditWindows(id) {
+function alterEditWindows(numbers) {
     // 团队编号
-    let teamId = id;
-    localStorage.setItem('teamId', teamId);//通过这个id找寻其他数据
+    let numbersId = numbers;
+    localStorage.setItem('teamId', numbersId);//通过这个id找寻其他数据
+
+}
+
+/**
+ * 删除当前numbers对应团队
+ * @param data
+ * @constructor
+ */
+function DeleteEditWindows(data) {
+    localStorage.setItem('teamId', data);//通过这个id找寻其他数据
+    let numbers = {numbers: localStorage.getItem('teamId')};
+    console.log(numbers)
+    // 团队编号
+    let result = myPostAjax('team/deleteTeam/'+data,null);
+    if (result.code == 200) {
+        layer.msg('已删除!', {icon: 1, time: 1000}, setTimeout(function () {  //使用  setTimeout（）方法设定定时xxxx毫秒
+            parent.location.reload();
+        }, 1000));
+    } else {
+        layer.msg('删除失败!', {icon: 2, time: 1000}, setTimeout(function () {
+            location.reload();
+        }, 1000));
+    }
 
 }
 
