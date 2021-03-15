@@ -89,10 +89,10 @@
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label"><span class="x-red">*</span>状态</label>
-                <div class="layui-input-block">
-                    <input type="radio" name="status" title="冻结" value="0">
-                    <input type="radio" name="status" title="解冻" value="1" checked="">
-                </div>
+                        <div class="layui-input-block">
+                            <input type="radio" name="status" title="冻结" value="0">
+                            <input type="radio" name="status" title="解冻" value="1" checked="">
+                        </div>
             </div>
             <div class="layui-form-item">
                 <label for="L_pass" class="layui-form-label">
@@ -212,7 +212,7 @@
     let imgPath = "static/layui/images/"
 
     function setData(result1) {
-        // console.log(result1,'编辑窗口值')
+        console.log(result1,'编辑窗口值')
         $("#showImgHref").attr("src", imgPath + result1.icon);
         $("#username").val(result1.username);
         $("input[name = 'sex'][value=" + result1.sex + "]").attr("checked", true);

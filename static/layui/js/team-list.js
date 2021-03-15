@@ -23,7 +23,7 @@ function setData(data) {
             '     <td>' + data[i].createTime + '</td>' +
             '<td  class="td-manage" style="display: flex;height: 40px"width="120" >\n' +
             '       <a style=" margin-top: 10px; width: 53px;height: 20px;" onclick="xadmin.open(\'队员\',\'Team-edit.html\',600,400)" href="javascript:;"> ' +
-            '        <span  onclick="playerEditWindows('+ data[i].numbers +')" style="border:1px solid rgb(220,220,220);background: rgb(242,242,242);width: 60px;">队员</span>\n' +
+            '        <span  onclick="playerEditWindows(' + data[i].numbers + ')" style="border:1px solid rgb(220,220,220);background: rgb(242,242,242);width: 60px;">队员</span>\n' +
             '       </a>\n' +
             '       <a style="width: 53px;" onclick="xadmin.open(\'队长\',\'Team-captain-edit.html\',600,400)" href="javascript:;">' +
             '         <div  onclick="CaptainEditWindows(' + data[i].numbers + ')" style="margin-top: 10px;"><span style="border:1px solid rgb(220,220,220);background: rgb(242,242,242);width: 60px;">队长</span></div>\n' +
@@ -51,6 +51,7 @@ function playerEditWindows(numbers) {
     localStorage.setItem('TeamNumber', numbers);//通过这个id找寻其他数据
 
 }
+
 /*弹出窗口*/
 function CaptainEditWindows(numbers) {
     // 团队编号
@@ -58,6 +59,7 @@ function CaptainEditWindows(numbers) {
     localStorage.setItem('TeamNumberCaptain', numbers);//通过这个id找寻其他数据
 
 }
+
 /*弹出窗口 团队Id*/
 function alterEditWindows(numbers) {
     // 团队编号
@@ -76,7 +78,7 @@ function DeleteEditWindows(data) {
     let numbers = {numbers: localStorage.getItem('teamId')};
     console.log(numbers)
     // 团队编号
-    let result = myPostAjax('team/deleteTeam/'+data,null);
+    let result = myPostAjax('team/deleteTeam/' + data, null);
     if (result.code == 200) {
         layer.msg('已删除!', {icon: 1, time: 1000}, setTimeout(function () {  //使用  setTimeout（）方法设定定时xxxx毫秒
             parent.location.reload();

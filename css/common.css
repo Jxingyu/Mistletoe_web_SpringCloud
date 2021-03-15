@@ -1,0 +1,81 @@
+.query > div {
+    margin: 0 10px;
+}
+
+.my-input {
+    width: 130px;
+}
+
+.user-input {
+    width: 80px;
+}
+
+/*隐藏*/
+.hidden {
+    display: none;
+}
+
+/*显示*/
+.show {
+    display: block;
+}
+
+/*树形结构布局*/
+.treeData {
+    display: flex;
+    justify-content: space-between;
+}
+
+.treeData > div:first-child {
+    width: 200px;
+}
+
+.treeData > div:nth-child(2) {
+    width: calc(100vw - 200px);
+}
+
+/*分配权限树布局*/
+.pmsTree {
+    display: flex;
+    justify-content: space-around;
+}
+
+.pmsTree > div:nth-child(2) {
+    height: 400px;
+    display: flex;
+    align-items: center;
+}
+
+/*穿梭框布局*/
+.my-transfer {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    justify-items: center;
+}
+
+.my-transfer-btn {
+    margin: auto;
+    width: 200px;
+}
+
+.my-transfer-btn > button {
+    margin: 30px 0;
+}
+
+/*编辑框布局*/
+.my-edit {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    justify-items: center;
+}
+
+.my-edit-btn {
+    margin: auto;
+    width: 200px;
+}
+
+.my-edit-btn >button{
+    margin: 30px;
+}

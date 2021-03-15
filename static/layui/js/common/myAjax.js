@@ -10,7 +10,7 @@ const HEADERS = {
     Authorization: AUTHORIZATION
 };
 
-function myAjax(url, data, type, processData, contentType) {
+function myAjax(url, data, type, contentType,processData) {
     // data.append("loginName",sessionStorage.getItem("username"))
     let result = null;
     // console.log(typeof data, 'myAjaxUrl');
@@ -20,8 +20,8 @@ function myAjax(url, data, type, processData, contentType) {
         // data: JSON.stringify(data),
         type: type,
         async: false,
-        processData: processData,
         contentType: contentType,
+        processData: processData,
         xhrFields: {
             withCredentials: true //允许跨域带Cookie
         },
