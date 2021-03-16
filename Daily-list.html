@@ -144,7 +144,7 @@
         // 查询该用户id
         let resultId = myAjax('/daily/selectDailyId', username, 'get')
         let userId = resultId.data
-        sessionStorage.setItem("DailyUserId",userId);
+        sessionStorage.setItem("DailyUserId", userId);
         // console.log(data.startDate,'startDate')
         // let result = myAjax('/daily/selectDailyAll', data, 'get')
         let result = myAjax('/daily/selectDailyAll/' + JSON.stringify(userId), null, 'get')
@@ -159,7 +159,8 @@
         let html = '';
         for (let i = 0; i < data.length; i++) {
             if (data[i].status == 0) {
-                data[i].status = '' + '<span  style="border: 1px black solid;background-color: rgb(231,204,69);font-weight: bold">草 稿</span>'
+                data[i].status = '' + '<a  onclick="xadmin.open(\'草稿编辑窗口\',\'Daily-draftEdit-edit.html\',1300,730)">' +
+                    '<span style="border: 1px black solid;background-color: rgb(231,204,69);font-weight: bold;" onclick="SaveEditWindows(' + data[i].id + ')">草 稿</span></a>'
             } else if (data[i].status == 1) {
                 data[i].status = '' + '<span  style="border: 1px black solid;background-color: rgb(69,231,98);font-weight: bold">已提交</span>'
             } else if (data[i].status == 2) {
@@ -190,6 +191,13 @@
         $("#manageLoopList").html(html);
 
     }
+
+    // 保存草稿编辑窗口 id
+    function SaveEditWindows(id) {
+        sessionStorage.setItem('DailyId', id)// 日志表的唯一區分id
+        console.log(sessionStorage.getItem('DailyId'));
+    }
+
 
 
     layui.use(['laydate', 'form'], function () {

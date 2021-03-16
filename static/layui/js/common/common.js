@@ -275,7 +275,7 @@ function showTime(timeId) {
  * 获取当前时间
  * @returns {string} 返回格式 yyyy-MM-dd HH:MM:SS
  */
-function getNowFormatDate() {
+function getNowFormatDates() {
     let date = new Date();
     let seperator1 = "-";
     let seperator2 = ":";
