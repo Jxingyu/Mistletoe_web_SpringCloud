@@ -15,6 +15,7 @@
     <script src="static/layui/js/common/myAjax.js"></script>
     <script src="./lib/layui/layui.js" charset="utf-8"></script>
     <script type="text/javascript" src="./js/xadmin.js"></script>
+    <script src="static/layui/js/common/common.js"></script>
     <!--[if lt IE 9]>
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
@@ -74,7 +75,8 @@
                             <th>标题</th>
                             <th>提交日期</th>
                             <th>状态</th>
-                            <!--<th>操作</th>-->
+                            <th>操作</th>
+                            <th>文档</th>
                         </tr>
                         </thead>
                         <tbody id="manageLoopList">
@@ -158,46 +160,73 @@
         // console.log(data,'data')
         let html = '';
         for (let i = 0; i < data.length; i++) {
-            if (data[i].status == 0) {
-                data[i].status = '' + '<a  onclick="xadmin.open(\'草稿编辑窗口\',\'Daily-draftEdit-edit.html\',1300,730)">' +
-                    '<span style="border: 1px black solid;background-color: rgb(231,204,69);font-weight: bold;" onclick="SaveEditWindows(' + data[i].id + ')">草 稿</span></a>'
-            } else if (data[i].status == 1) {
-                data[i].status = '' + '<span  style="border: 1px black solid;background-color: rgb(69,231,98);font-weight: bold">已提交</span>'
-            } else if (data[i].status == 2) {
-                data[i].status = '' + '<span  style="border:1px solid rgb(220,220,220);background: rgb(242,242,242);font-weight: bold">已查看</span>'
-            }
-            data[i].username = username// 用户名传递
-            ;
-            html += '<tr>\n' +
-                // '     <td >\n' +
-                // '       <input type="checkbox" name="id" value="1"   lay-skin="primary"> \n' +// ID多选
-                // '     </td>\n' +
-                '     <td >' + data[i].id + '</td>\n' +
-                '     <td>' + data[i].userId + '</td>\n' +
-                '     <td>' + data[i].username.username + '</td>\n' +
-                '     <td>' + data[i].dailyTitle + '</td>\n' +
-                '     <td>' + data[i].submitDate + '</td>\n' +
-                '     <td>' + data[i].status + '</td>' +
-/*                '<td class="td-manage">\n' +
-                '       <a onclick="xadmin.open(\'查看\',\'daily-edit.html\',600,400)" href="javascript:;">' +
-                '         <div  onclick="alterEditWindows(' + data[i].id + ')"style="color:#ff4500;font-weight: bold">查看</div>\n' +
-                '       </a>\n' +
-                '     </td>\n' +*/
-                '   </tr>'
-            // ; console.log(data[i].id+'::data')
-        }
+            if (data[i].status != 0) { // 排除草稿状态
+                if (data[i].status == 1) {
+                    data[i].status = '' + '<span  style="border: 1px black solid;background-color: rgb(69,231,98);font-weight: bold">已提交</span>'
+                } else if (data[i].status == 2) {
+                    data[i].status = '' + '<span  style="border:1px solid rgb(220,220,220);background: rgb(242,242,242);font-weight: bold">已查看</span>'
+                }
 
+                data[i].username = username// 用户名传递
+                ;
+                html += '<tr>\n' +
+                    // '     <td >\n' +
+                    // '       <input type="checkbox" name="id" value="1"   lay-skin="primary"> \n' +// ID多选
+                    // '     </td>\n' +
+                    '     <td >' + data[i].id + '</td>\n' +
+                    '     <td>' + data[i].userId + '</td>\n' +
+                    '     <td>' + data[i].username.username + '</td>\n' +
+                    '     <td>' + data[i].dailyTitle + '</td>\n' +
+                    '     <td>' + data[i].submitDate + '</td>\n' +
+                    '     <td>' + data[i].status + '</td>' +
+                    '<td class="td-manage">\n' +
+                    '       <a onclick="xadmin.open(\'查 看\',\'Review-daily-edit.html\',1100,780)" href="javascript:;">' +
+                    '         <span  onclick="SaveEdit(' + data[i].id + ')"style="border:1px solid rgb(220,220,220);background: rgb(242,242,242);">查 看</span>\n' +
+                    '       </a>\n' +
+                    '     </td>\n' +
+                    '<td class="td-manage">\n' +
+                    '         <span  onclick="ExportWord(' + data[i].id + ')"style="border:1px solid rgb(220,220,220);background: rgb(242,242,242);">导 出</span>\n' +
+                    '     </td>\n' +
+                    '   </tr>'
+                // ; console.log(data[i].id+'::data')
+            }
+        }
 
         $("#manageLoopList").html(html);
 
     }
 
     // 保存草稿编辑窗口 id
-    function SaveEditWindows(id) {
-        sessionStorage.setItem('DailyId', id)// 日志表的唯一區分id
-        console.log(sessionStorage.getItem('DailyId'));
+    function SaveEdit(id) {
+
+        sessionStorage.setItem('DailyReviewId', id)// 日志表的唯一區分id
     }
 
+
+    function ExportWord(id) {
+        sessionStorage.setItem('ExportWordId', id)
+        let result = myAjax('/daily/selectDailyById/' + id, null, 'get');
+        let datas = result.data[0];
+
+        let data = {
+            id: sessionStorage.getItem('ExportWordId'),
+            username: datas.username,
+            dailyTitle: datas.dailyTitle,
+            dailyContent: datas.dailyContent,
+            coach: datas.coach,
+            assistant: datas.assistant,
+            harvest: datas.harvest,
+            shortage: datas.shortage,
+            submitDate: datas.submitDate
+
+        }
+        let results = myAjax('/daily/ExportWord', JSON.stringify(data), 'post', 'application/json;charset=UTF-8')// 导出word
+        if (results.code == 200) {
+            alert('导出成功');
+            location.reload();
+        }
+
+    }
 
 
     layui.use(['laydate', 'form'], function () {

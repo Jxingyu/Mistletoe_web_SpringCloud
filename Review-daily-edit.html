@@ -1,8 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <title>新增日报</title>
+    <meta charset="UTF-8">
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -18,6 +17,7 @@
     <script src="static/layui/js/daily-add.js" charset="utf-8"></script>
     <script src="static/layui/js/common/myAjax.js"></script>
     <script src="static/layui/js/common/common.js"></script>
+    <title>日志草稿编辑页面</title>
 </head>
 <body>
 <div class="layui-form layui-form-pane">
@@ -83,77 +83,53 @@
     <div class="layui-btn-container">
         <div class="my-edit-btn">
             <!--            <button class="layui-btn" lay-submit lay-filter="save">保存</button>-->
-            <div class="layui-btn" onclick="save()" style="background-color: rgb(217,185,46)">保存</div>
+            <!--            <div class="layui-btn" onclick="save()">保存</div>-->
             <!--            <button class="layui-btn" lay-submit lay-filter="commit">提交</button>-->
-            <div class="layui-btn" onclick="commit()">提交</div>
+            <!--<div style="margin-left: 50px;" class="layui-btn" onclick="commit()">提交</div>-->
         </div>
     </div>
 </div>
 
 
 </body>
+
 <script>
-    // 日报用户名赋值
-    let username = sessionStorage.getItem("username");
-    $("#username").html(username)
-    let resultes;
-    //查询出该用户的教练 和助理
-    let userId = sessionStorage.getItem("DailyUserId");
-    // 赋值当前时间到日期栏
-    // 开启定时器 动态获取当前时间
-    setInterval(function () {
-        $("#submitDate").html(getNowFormatDates());
-    }, 1000);
 
+    //草稿状态以外的日报查看页面赋值
+    $(function () {
+        findDailyById();
+    })
 
-    resultes = myAjax('/daily/selectDailyEditMesByUserId/' + userId, null, 'get')
-    // console.log(result.data[0].assistant,'9999999')
-    $("#assistant").html(resultes.data[0].assistant)
-    $("#coach").html(resultes.data[0].coach)
-
-    // 新增日报 已提交场合
-    function commit() {
-        let data = {
-            userId: userId,
-            dailyTitle: $("#dailyTitle").val(),
-            username: username,
-            submitDate: getNowFormatDates(),
-            assistant: resultes.data[0].assistant,
-            coach: resultes.data[0].coach,
-            dailyContent: $("#dailyContent").val(),
-            harvest: $("#harvest").val(),
-            shortage: $("#shortage").val(),
-            status: '1'// 已提交的状态
-        };
-        let result = myAjax('/daily/updateDaily', JSON.stringify(data), 'post', 'application/json;charset=UTF-8')
-        console.log(result.code)
-        if (result.code == 200) {
-            alert("日报已提交!"), setTimeout(function () {  //使用  setTimeout（）方法设定定时2000毫秒
-                location.reload();
-            }, 1000);
-        }
+    function findDailyById() {
+        let id = sessionStorage.getItem('DailyReviewId')// 日志表的唯一區分id
+        let result = myAjax('/daily/selectDailyById/' + id, null, 'get');
+        let data = result.data[0];
+        setData(data)
     }
 
-    // 新增日报草稿 场合
-    function save() {
-        let data = {
-            userId: userId,
-            dailyTitle: $("#dailyTitle").val(),
-            username: username,
-            submitDate: getNowFormatDates(),
-            assistant: resultes.data[0].assistant,
-            coach: resultes.data[0].coach,
-            dailyContent: $("#dailyContent").val(),
-            harvest: $("#harvest").val(),
-            shortage: $("#shortage").val(),
-            status: '0'// 已提交的状态
-        };
-        let result = myAjax('/daily/saveDailyInRedis', JSON.stringify(data), 'post', 'application/json;charset=UTF-8')
+    function setData(data) {
+        console.log(data.username)
+        $("#username").html(data.username)
+        $("#coach").html(data.coach);
+        $("#assistant").html(data.assistant);
+        $("#submitDate").html(data.submitDate);
+        $("#dailyTitle").val(data.dailyTitle);
+        $("#dailyContent").html(data.dailyContent);
+        $("#harvest").html(data.harvest);
+        $("#shortage").html(data.shortage);
+        // 修改转台为已查看
+        status = '2'
+        let result = myAjax('/daily/updateDailyStatus/' + data.id + "/" + status, null, 'post')// restFul传递两个参数方式
+
         if (result.code == 200) {
-            alert('确认存为草稿吗')
-            parent.location.reload();
+            alert("确认查看吗?"), setTimeout(function () { //使用  setTimeout（）方法设定定时2000毫秒
+                parent.location.reload(),5000;
+            }, 5000);
         }
-        console.log(result.code)
+        // 开启定时器 动态获取刷新
+        setInterval(function () {
+            parent.location.reload();
+        }, 30000);
     }
 
 
