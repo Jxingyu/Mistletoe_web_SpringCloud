@@ -149,7 +149,7 @@
         sessionStorage.setItem("DailyUserId", userId);
         // console.log(data.startDate,'startDate')
         // let result = myAjax('/daily/selectDailyAll', data, 'get')
-        let result = myAjax('/daily/selectDailyAll/' + JSON.stringify(userId), null, 'get')
+        let result = myAjax('/daily/ReviewDailyAll/' , '', 'get')
 
         // console.log(result);
         setData(result.data);// 赋值用
@@ -167,7 +167,6 @@
                     data[i].status = '' + '<span  style="border:1px solid rgb(220,220,220);background: rgb(242,242,242);font-weight: bold">已查看</span>'
                 }
 
-                data[i].username = username// 用户名传递
                 ;
                 html += '<tr>\n' +
                     // '     <td >\n' +
@@ -175,7 +174,7 @@
                     // '     </td>\n' +
                     '     <td >' + data[i].id + '</td>\n' +
                     '     <td>' + data[i].userId + '</td>\n' +
-                    '     <td>' + data[i].username.username + '</td>\n' +
+                    '     <td>' + data[i].username + '</td>\n' +
                     '     <td>' + data[i].dailyTitle + '</td>\n' +
                     '     <td>' + data[i].submitDate + '</td>\n' +
                     '     <td>' + data[i].status + '</td>' +
@@ -198,7 +197,6 @@
 
     // 保存草稿编辑窗口 id
     function SaveEdit(id) {
-
         sessionStorage.setItem('DailyReviewId', id)// 日志表的唯一區分id
     }
 
@@ -222,7 +220,7 @@
         }
         let results = myAjax('/daily/ExportWord', JSON.stringify(data), 'post', 'application/json;charset=UTF-8')// 导出word
         if (results.code == 200) {
-            alert('导出成功');
+            alert('导出地址成功!' + '地址:' + results.data);
             location.reload();
         }
 
