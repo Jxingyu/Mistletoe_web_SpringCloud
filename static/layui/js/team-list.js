@@ -4,7 +4,7 @@ $(function () {
 
 function findAlls() {
     let value = {id: localStorage.getItem('TeamNumber')}// 队员，队长 ，团队 区分用Id   当前团队Id
-    let result = myAjax('/team/findTeamAll', '', 'get');
+    let result = myAjax('/api/u/team/findTeamAll', '', 'get');
     setData(result.data);// 赋值用
 };
 
@@ -78,7 +78,7 @@ function DeleteEditWindows(data) {
     let numbers = {numbers: localStorage.getItem('teamId')};
     console.log(numbers)
     // 团队编号
-    let result = myPostAjax('team/deleteTeam/' + data, null);
+    let result = myPostAjax('api/u/team/deleteTeam/' + data, null);
     if (result.code == 200) {
         layer.msg('已删除!', {icon: 1, time: 1000}, setTimeout(function () {  //使用  setTimeout（）方法设定定时xxxx毫秒
             parent.location.reload();

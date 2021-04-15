@@ -109,7 +109,7 @@
     })
 
     function findTeamRecord() {
-        let result = myAjax('/teamRecord/findTeamRecord', '', 'get');
+        let result = myAjax('/api/u/team/findTeamRecord', '', 'get');
         let data = result.data;
         setData(data)
     }

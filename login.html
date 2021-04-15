@@ -143,8 +143,8 @@
                            autocomplete="off" class="layui-input verification captcha">
 
                     <div class="captcha-img">
-                        <img id="captchaPic" src="http://localhost:8081/code" width="110"
-                             height="40" class="imgCode" onclick="changeCode(this)">
+                        <img src="http://localhost:10000/api/se/code" width="100"
+                             height="30" class="imgCode" onclick="changeCode(this)">
                     </div>
                 </div>
                 <div class="layui-form-item" style="color: #0c0f13">
@@ -214,15 +214,14 @@
                     captcha: $("#captcha").val()
                 };
 
-                let result = myPostAjax('/login/check', data);
-
+                let result = myPostAjax('api/se/login/check', data);
                 if (result.code == 200) {
                     // if (result.message == 'TokenSuccess') {// 登录返回Token成功
-                    /*  console.log(result.code);
+                      console.log(result.code);
                       console.log(result.result);
                       console.log(result.result.bearer,222222);
                       console.log(result.result.Authorization,222222);
-                      console.log(result.result.generaToken,222222);*/
+                      console.log(result.result.generaToken,222222);
                     localStorage.setItem("bearer", result.result.bearer)
                     localStorage.setItem("Authorization", result.result.Authorization)
                     localStorage.setItem("generaToken", result.result.generaToken)
@@ -260,7 +259,8 @@
         /*let src = document.getElementsByClassName("imgCode")[0].src;
         document.getElementsByClassName("imgCode")[0].src = src + "?d2" + Math.random();
         console.log(src);*/
-        $(".imgCode").attr("src", "http://localhost:8081/code?d2" + Math.random());
+        // let codeRandom = Math.random();
+        $(".imgCode").attr("src", "http://localhost:10000/api/se/code?d2" + Math.random());
     }
 
 </script>

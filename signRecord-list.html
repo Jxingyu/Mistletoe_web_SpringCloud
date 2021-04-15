@@ -107,7 +107,7 @@
             pageSize: $("#pageSize").val()
         };
 
-        let result = myAjax('/sign/selectSignRecord', data, 'get');
+        let result = myAjax('/api/u/sign/selectSignRecord', data, 'get');
         $("#totalPage").html(result.totalCount);
         // console.log(result.totalCount)
         setData(result.SignRecord);// 赋值用

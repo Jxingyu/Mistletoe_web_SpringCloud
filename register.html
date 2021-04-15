@@ -87,13 +87,13 @@
                            autocomplete="off" class="layui-input">
                 </div>
             </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label"><span class="x-red">*</span>状态</label>
-                <div class="layui-input-block">
-                    <input type="radio" name="status" title="冻结" value="0">
-                    <input type="radio" name="status" title="解冻" value="1" checked="">
-                </div>
-            </div>
+<!--            <div class="layui-form-item">-->
+<!--                <label class="layui-form-label"><span class="x-red">*</span>状态</label>-->
+<!--                <div class="layui-input-block">-->
+<!--                    <input type="radio" name="status" title="冻结" value="0">-->
+<!--                    <input type="radio" name="status" title="解冻" value="1" checked="">-->
+<!--                </div>-->
+<!--            </div>-->
             <div class="layui-form-item">
                 <label for="L_pass" class="layui-form-label">
                     <span class="x-red">*</span>密码
@@ -140,13 +140,14 @@
             phone: $("#phone").val(),
             address: $("#address").val(),
             createTime: $("#registerDate").val(),
-            status: $("input[type=radio][name=status]:checked").val(),
+            // status: $("input[type=radio][name=status]:checked").val(),
+            status: "1",
             password: $("#L_pass").val()
         };
         if (data.username !== null && data.username !== ''
             && data.phone !== null && data.phone !== '' && data.password !== null && data.password !== ''
             && data.createTime !== null && data.createTime !== '' && data.address !== null && data.address !== '') {
-            let result = myPostAjax('/register/check', data);
+            let result = myPostAjax('/api/u/user/register/check', data);
             /*返回一个结果给页面判断*/
             if (result.code == 200) {
                 let newID = result.data.data.NewID;
@@ -161,7 +162,7 @@
                 console.log(icon.size, '文件大小')
 
                 if (icon.size > 1 && icon.size < 1048576) {//文件size大于1进判断(防止undefined)
-                    let iconResult = myAjax('/user/registerIconUpdate', formData, 'post', false, false);
+                    let iconResult = myAjax('/api/u/user/registerIconUpdate', formData, 'post', false, false);
                     if (iconResult.code == 200) {
                         layer.msg('注册成功!', {icon: 1, time: 1000}, setTimeout(function () {//使用setTimeout（）方法设定定时xxxx毫秒
                             parent.location.reload();

@@ -10,7 +10,7 @@ function findAll() {
         createTime: $("createTime").val(),
         status: $("status").val()
     };
-    let result = myAjax('/role/findAll', data, 'get');
+    let result = myAjax('/api/u/user/role/findAll', data, 'get');
     console.log(result)
     setData(result.result);// 赋值用
 };

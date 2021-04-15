@@ -142,14 +142,14 @@
     function findAll() {
         username = {username: sessionStorage.getItem('username')};
         // 查询该用户id
-        let resultId = myAjax('/daily/selectDailyId', username, 'get')
+        let resultId = myAjax('/api/d/daily/selectDailyId', username, 'get')
         let userId = resultId.data
+        // console.log(userId,'699999999997777')
         sessionStorage.setItem("DailyUserId", userId);
         // console.log(data.startDate,'startDate')
         // let result = myAjax('/daily/selectDailyAll', data, 'get')
-        let result = myAjax('/daily/selectDailyAll/' + JSON.stringify(userId), null, 'get')
-
-        // console.log(result);
+        let result = myAjax('/api/d/daily/selectDailyAll/' + JSON.stringify(userId), null, 'get')
+        // console.log(result,'6666666666');
         setData(result.data);// 赋值用
     };
 

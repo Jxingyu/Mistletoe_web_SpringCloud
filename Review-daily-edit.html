@@ -102,8 +102,9 @@
 
     function findDailyById() {
         let id = sessionStorage.getItem('DailyReviewId')// 日志表的唯一區分id
-        let result = myAjax('/daily/selectDailyById/' + id, null, 'get');
+        let result = myAjax('/api/d/daily/selectDailyDraftById/' + id, null, 'get');
         let data = result.data[0];
+        console.log(result, '**********')
         setData(data)
     }
 
@@ -119,13 +120,15 @@
         $("#shortage").html(data.shortage);
         // 修改转台为已查看
         status = '2'
-        let result = myAjax('/daily/updateDailyStatus/' + data.id + "/" + status, null, 'post')// restFul传递两个参数方式
+        alert("确认查看吗?"), setTimeout(function () { //使用  setTimeout（）方法设定定时2000毫秒
+            let result = myAjax('/api/d/daily/updateDailyStatus/' + data.id + "/" + status, null, 'post')// restFul传递两个参数方式
+            parent.location.reload(), 5000;
+        }, 5000);
 
-        if (result.code == 200) {
-            alert("确认查看吗?"), setTimeout(function () { //使用  setTimeout（）方法设定定时2000毫秒
-                parent.location.reload(),5000;
-            }, 5000);
-        }
+
+        // if (result.code == 200) {
+
+        // }
         // 开启定时器 动态获取刷新
         setInterval(function () {
             parent.location.reload();

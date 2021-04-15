@@ -124,7 +124,7 @@
             createTime: $("#registerDate").val(),
         };
 
-        let result = myPostAjax('/team/edit/update', data);
+        let result = myPostAjax('api/u/team/edit/update', data);
         /*返回一个结果给页面判断*/
         if (result.code == 200) {
             // console.log(result.code,'cnmm')
@@ -149,7 +149,7 @@
      */
     function findById() {
         let numbers = {numbers: localStorage.getItem('teamId')};
-        let result = myAjax('/team/findTeamById', numbers, 'get')
+        let result = myAjax('/api/u/team/findTeamById', numbers, 'get')
         let result1 = result.data[0];
         // console.log(result1);
         setData(result1);

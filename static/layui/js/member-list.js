@@ -11,7 +11,7 @@ function findAll() {
         address: $("address").val(),
         createTime: $("createTime").val()
     };
-    let result = myAjax('/user/findAll', data, 'get');
+    let result = myAjax('/api/u/user/findAll', data, 'get');
     setData(result.result);// 赋值用
 };
 

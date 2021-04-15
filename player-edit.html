@@ -144,7 +144,7 @@
             password: $("#L_pass").val()
         };
 
-        let result = myPostAjax('/user/player/update', data);
+        let result = myPostAjax('api/u/user/player/update', data);
         /*返回一个结果给页面判断*/
         if (result.code == 200) {
             // console.log(result.code,'cnmm')
@@ -167,7 +167,7 @@
         let icon = formData.get("icon");
         console.log(icon.size,'文件大小')
         if (icon.size > 1) { // 文件size大于1 进判断(防止undefined)
-            let iconResult = myAjax('/user/player/iconUpdate', formData, 'post', false, false);
+            let iconResult = myAjax('/api/u/user/player/iconUpdate', formData, 'post', false, false);
             if (iconResult.code == 200) {
                 layer.msg('已更新!', {icon: 1, time: 1000}, setTimeout(function () {  //使用  setTimeout（）方法设定定时xxxx毫秒
                     parent.location.reload();
@@ -201,7 +201,7 @@
      */
     function findById() {
         let date = {id: sessionStorage.getItem('userId')};
-        let result = myAjax('/user/player/findPlayerById', date, 'get')
+        let result = myAjax('/api/u/user/player/findPlayerById', date, 'get')
         // console.log(result, 'findById');
         let result1 = result.result;
         setData(result1);
@@ -246,13 +246,6 @@
                 return false;
             });
     });</script>
-<script>var _hmt = _hmt || [];
-(function () {
-    var hm = document.createElement("script");
-    hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";
-    var s = document.getElementsByTagName("script")[0];
-    s.parentNode.insertBefore(hm, s);
-})();</script>
 </body>
 
 </html>

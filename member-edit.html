@@ -44,12 +44,11 @@
             , transfer = layui.transfer
 
         let value = {id: sessionStorage.getItem('userId')}// 当前用户id
-
-        let result = myAjax('/role/findRoleName', value, 'get');// 查询所有角色 value在sql未用上
+        let result = myAjax('/api/u/user/findRoleName', value, 'get');// 查询所有角色 value在sql未用上
         let data1 = result.result;
 
 
-        let Result = myAjax('/role/findNameByUserId', value, 'get');// 查询当前角色
+        let Result = myAjax('/api/u/user/findNameByUserId', value, 'get');// 查询当前角色
         let datas = Result.findNameByUserId
             rightdata.push(datas[0].id);
 
@@ -95,7 +94,7 @@
 
                 }  //左边传递到右边的数据
                 if (arr[index] == '左边') {
-                    let result = myPostAjax('/role/updateUserRole', datas)
+                    let result = myPostAjax('api/u/user/updateUserRole', datas)
                     // console.log(datas, 'datas')
                     if (result.result !== 0) {
                         // parent.layui.table.reload("currentTableId");
@@ -114,7 +113,7 @@
                         layer.msg('更新失败!', {icon: 2, time: 1000});
                     }
                 } else {//右边数据移至左边 修改功能
-                    let result = myPostAjax('/role/updateUserRoleTwo', datas)
+                    let result = myPostAjax('/api/u/user/updateUserRoleTwo', datas)
                     if (result.result!==0){
                         layer.msg('已删除!', {icon: 1, time: 1000}, setTimeout(function () {  //使用  setTimeout（）方法设定定时2000毫秒
                             location.reload();
@@ -122,14 +121,12 @@
                     }
                 }
             }
-
-
         });
     });
 
 
 </script>
-<div class="layui-fluid">
+<!--<div class="layui-fluid">
     <div class="layui-row">
         <form class="layui-form">
             <div class="layui-form-item">
@@ -137,7 +134,7 @@
             </div>
         </form>
     </div>
-</div>
+</div>-->
 <script>layui.use(['form', 'layer'],
     function () {
         $ = layui.jquery;
@@ -161,13 +158,13 @@
                 return false;
             });
     });</script>
-<script>var _hmt = _hmt || [];
+<!--<script>var _hmt = _hmt || [];
 (function () {
     var hm = document.createElement("script");
     hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";
     var s = document.getElementsByTagName("script")[0];
     s.parentNode.insertBefore(hm, s);
-})();</script>
+})();</script>-->
 </body>
 
 </html>

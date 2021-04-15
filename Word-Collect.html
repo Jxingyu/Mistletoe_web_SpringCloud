@@ -2,16 +2,19 @@
 <html class="x-admin-sm">
 <head>
     <meta charset="UTF-8">
-    <title>欢迎页面-X-admin2.2</title>
+    <title>-X-admin2.2</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
           content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
     <link rel="stylesheet" href="./css/font.css">
-    <link rel="stylesheet" href="./css/xadmin.css">
+    <link rel="stylesheet" href="static/layui/lib/layui-v2.5.5/css/layui.css">
+    <link rel="stylesheet" href="static/layui/lib/layui-v2.5.5/css/layui.mobile.css">
+    <link rel="stylesheet" href="css/layui.css" media="all">
+
+    <link rel="stylesheet" href="./css/xadmin.css" media="all">
     <link rel="stylesheet" href="static/layui/css/page.css">
     <script src="static/layui/js/common/jQuery .js"></script>
-    <script src="static/layui/js/player-list.js"></script>
     <script src="static/layui/js/common/myAjax.js"></script>
     <script src="./lib/layui/layui.js" charset="utf-8"></script>
     <script type="text/javascript" src="./js/xadmin.js"></script>
@@ -40,72 +43,35 @@
                 <div class="layui-card-body ">
                     <form class="layui-form layui-col-space5">
                         <div class="layui-inline layui-show-xs-block">
-                            <input type="text" name="username" id="username" placeholder="请输入用户名" autocomplete="off"
+                            <input type="text" id="english" placeholder="单词查询" autocomplete="off"
                                    class="layui-input">
                         </div>
                         <div class="layui-inline layui-show-xs-block">
-                            <input class="layui-input" autocomplete="off" placeholder="注册开始日" name="start" id="start">
+                            <input type="text" id="chinese" placeholder="中文查询" autocomplete="off"
+                                   class="layui-input">
                         </div>
                         <div class="layui-inline layui-show-xs-block">
-                            <input class="layui-input" autocomplete="off" placeholder="注册截止日" name="end" id="end">
-                        </div>
-                        <div class="layui-inline layui-show-xs-block">
-                            <div onclick="findAll()" class="layui-btn" lay-filter="sreach"><i class="layui-icon">&#xe615;</i>
-                            </div>
+                            <div onclick="findAll()" class="layui-btn" lay-submit="" lay-filter="sreach"><i
+                                    class="layui-icon">&#xe615;</i></div>
                         </div>
                     </form>
                 </div>
-                <div class="layui-card-header">
-<!--                    <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除-->
-<!--                    </button>-->
-                    <button class="layui-btn" onclick="xadmin.open('添加用户','./register.html',600,400)"><i
-                            class="layui-icon"></i>添加用户
-                    </button>
-                </div>
+
                 <div class="layui-card-body layui-table-body layui-table-main">
-                    <table class="layui-table layui-form Pagebody">
+                    <table class="layui-table layui-form">
                         <thead>
                         <tr>
-                            <!--    <th style="width: 10px;">
-                                    <input type="checkbox" lay-filter="checkall" name="" lay-skin="primary">
-                                </th>-->
                             <th style="width: 10px;">ID</th>
-                            <th>头像</th>
-                            <th>用户名</th>
-                            <th>当前角色</th>
-                            <th>性别</th>
-                            <th>手机</th>
-                            <th>地址</th>
-                            <th>注册时间</th>
-                            <th>状态</th>
-                            <th>操作</th>
+                            <th>单词</th>
+                            <th>中文</th>
+                            <th>作者</th>
+                            <th>提交时间</th>
+                            <th>点赞</th>
+                            <th>收藏</th>
                         </tr>
                         </thead>
                         <tbody id="manageLoopList">
-                        <!--<tr>
-                          <td>
-                            <input type="checkbox" name="id" value="1"   lay-skin="primary">
-                          </td>
-                          <td>1</td>
-                          <td>小明</td>
-                          <td>ggg</td>
-                          <td>男</td>
-                          <td>13000000000</td>
-                          <td>北京市 海淀区</td>
-                          <td>2020-02-02</td>
-                          <td>2020-02-02</td>
-                          <td class="td-manage">
-                            <a title="编辑"  onclick="xadmin.open('编辑','member-edit.html',600,400)" href="javascript:;">
-                              <i class="layui-icon">&#xe642;</i>
-                            </a>
-                            <a onclick="xadmin.open('修改密码','member-password.html',600,400)" title="修改密码" href="javascript:;">
-                              <i class="layui-icon">&#xe631;</i>
-                            </a>
-                            <a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
-                              <i class="layui-icon">&#xe640;</i>
-                            </a>
-                          </td>
-                        </tr>-->
+
                         </tbody>
                     </table>
                 </div>
@@ -113,7 +79,7 @@
                     <div class="page">
                         <div style="margin: 0 auto;">
                             <sp class="prev" href="">每一頁显示<input style="width: 50px" type="number" id="pageSize"
-                                                                 value="5">条
+                                                                 value="10">条
                             </sp>
                             <sp>共<span id="totalPage"></span>条</sp>
                             <sp>当前<input style="width: 50px" type="number" id="curPage" value="1">页</sp>
@@ -130,6 +96,121 @@
     </div>
 </div>
 </body>
+<script>
+    $(function () {
+        findAll();
+    })
+
+    //点赞数++
+    function numberAdd(number, id) {
+        number++;
+        let data = {
+            number,
+            id
+        };
+        let result = myAjax('/api/w/word/updateNumber', data, 'post');
+        if (result.code == 200) {
+            // console.log(result.code,'cnmm')
+            layer.msg('已点赞!', {icon: 1, time: 1000}, setTimeout(function () {  //使用  setTimeout（）方法设定定时xxxx毫秒
+                parent.location.reload();
+            }, 1000));
+        } else {
+            layer.msg('点赞失败!', {icon: 2, time: 1000}, setTimeout(function () {
+                location.reload();
+            }, 1000));
+        }
+    }
+
+    //收藏
+    function collectAdd(collect, id) {
+        collect = 2;
+        let data = {
+            collect,
+            id
+        };
+        let result = myAjax('/api/w/word/updateCollect', data, 'post');
+        if (result.code == 200) {
+            // console.log(result.code,'cnmm')
+            layer.msg('已收藏!', {icon: 1, time: 1000}, setTimeout(function () {  //使用  setTimeout（）方法设定定时xxxx毫秒
+                parent.location.reload();
+            }, 1000));
+        } else {
+            layer.msg('收藏失败!', {icon: 2, time: 1000}, setTimeout(function () {
+                location.reload();
+            }, 1000));
+        }
+    }
+
+    //取消收藏
+    function collectReduce(collect, id) {
+        collect = 1;
+        let data = {
+            collect,
+            id
+        };
+        let result = myAjax('/api/w/word/updateCollect', data, 'post');
+        if (result.code == 200) {
+            // console.log(result.code,'cnmm')
+            layer.msg('已取消收藏!', {icon: 1, time: 1000}, setTimeout(function () {  //使用  setTimeout（）方法设定定时xxxx毫秒
+                parent.location.reload();
+            }, 1000));
+        } else {
+            layer.msg('取消失败!', {icon: 2, time: 1000}, setTimeout(function () {
+                location.reload();
+            }, 1000));
+        }
+    }
+
+    function findAll() {
+        let data = {
+            id: $("#id").val(),
+            english: $("#english").val(),
+            chinese: $("#chinese").val(),
+            author: $("#author").val(),
+            commitTime: $("#commit-time").val(),
+            number: $("#number").val(),
+            pageSize: $("#pageSize").val(),
+            curPage: $("#curPage").val(),
+            collect: $("#collect").val()
+        };
+        let result = myAjax('/api/w/word/findCollectAll', data, 'get');
+        $("#totalPage").html(result.totalCount);
+        setData(result.result);// 赋值用
+    };
+
+    // 循环赋值开始
+    function setData(data) {
+        // console.log(data,'data')
+        let html = '';
+        for (let i = 0; i < data.length; i++) {
+            if (data[i].collect == 1) {
+                data[i].collect = '' + '<button onclick="collectAdd(' + data[i].collect + ',' + data[i].id + ')" class="iconfont">&#xe7ce;</button>'
+            } else {
+                data[i].collect = '' + '<button style="background-color: rgb(236,56,69)" onclick="collectReduce(' + data[i].collect + ',' + data[i].id + ')" class="iconfont">&#xe7ce;</button>'
+            }
+            html += '<tr>\n' +
+                '     <td onclick="words(' + data[i].id + ')">' + data[i].id + '</td>\n' +
+                '     <td>' + data[i].english
+                + '</td>\n' +
+                '     <td>' + data[i].chinese + '</td>\n' +
+                '     <td>' + data[i].author + '</td>\n' +
+                '     <td>' + data[i].commitTime + '</td>\n' +
+                '     <td><button onclick="numberAdd(' + data[i].number + ',' + data[i].id + ')" class="iconfont">&#xe717;</button>' + data[i].number + '</td>\n' +
+                // '     <td><button onclick="collectAdd(' + data[i].collect + ',' + data[i].id + ')" class="iconfont">&#xe7ce;</button></td>\n' +
+                '     <td>' + data[i].collect + '</td>' +
+                '   </tr>'
+        }
+        $("#manageLoopList").html(html);
+    }
+
+    /*弹出窗口*/
+    function words(id) {
+        // 点到id
+        localStorage.setItem('wordId', id);//通过这个id找寻其他数据
+        console.log(id, 'wordId')
+    }
+
+</script>
 <script>
     layui.use(['laydate', 'form'], function () {
         var laydate = layui.laydate;

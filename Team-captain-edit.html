@@ -44,14 +44,14 @@
             , transfer = layui.transfer
 
         let value = {id: localStorage.getItem('TeamNumberCaptain')}//numbers 队员，队长 ，团队 区分用Id   当前团队Id
-        let result = myAjax('/utr/select/captain', 'get');// 候选队长
+        let result = myAjax('/api/u/utr/select/captain', 'get');// 候选队长
         let datax = result.result;
 
-        let Result = myAjax('/utr/select/NowCaptain', value, 'get');// 查询当前选中团队的 当前队长
+        let Result = myAjax('/api/u/utr/select/NowCaptain', value, 'get');// 查询当前选中团队的 当前队长
        let datas = Result.result;
         console.log(datas.length)
 
-        let utrResult = myAjax('/utr/selectUcr', value, 'get')// 查询队员关联表数据 更新rpr表用
+        let utrResult = myAjax('/api/u/utr/selectUcr', value, 'get')// 查询队员关联表数据 更新rpr表用
         console.log(utrResult,999999)
         for (let i = 0; i < datas.length; i++) {
             rightdata.push(datas[i].id);// 循环得到权限id
@@ -93,7 +93,7 @@
 
                 //左边传递到右边的数据
                 if (arr[index] == '左边') {
-                    let result = myPostAjax('/ucr/update/NowCaptain', data)// 更新角色 权限 rpr 关联表
+                    let result = myPostAjax('api/u/utr/update/NowCaptain', data)// 更新角色 权限 rpr 关联表
 
                     if (result.result !== 0) {
                         // parent.layui.table.reload("currentTableId");
@@ -111,13 +111,8 @@
                     } else {
                         layer.msg('更新失败!', {icon: 2, time: 1000});
                     }
-                } else {//右边数据移至左边 修改功能
-                    let result = myPostAjax('/utr/deleteUtrIdInUtr', data)
-                    if (result.code == 200) {
-                        layer.msg('已删除!', {icon: 1, time: 1000}, setTimeout(function () {  //使用  setTimeout（）方法设定定时2000毫秒
-                            location.reload();
-                        }, 1000));
-                    }
+                } else {//右边数据移至左边
+
                 }
             }
 

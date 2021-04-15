@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="x-admin-sm">
 <head>
     <meta charset="UTF-8">
     <title>Welcome</title>
@@ -13,34 +13,47 @@
     <link rel="stylesheet" href="static/layui/lib/layui-v2.5.5/css/layui.css">
     <link rel="stylesheet" href="./css/font.css">
     <link rel="stylesheet" href="./css/xadmin.css">
+    <script src="static/layui/js/common/common.js"></script>
 
-    <script src="static/layui/js/common/jQuery .js"></script>
-    <script src="static/layui/js/common/myAjax.js"></script>
-    <script type="text/javascript" src="./lib/layui/layui.js" charset="utf-8"></script>
-    <script type="text/javascript" src="./js/xadmin.js"></script>
+
     <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
     <!--[if lt IE 9]>
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-</head>
+    <![endif]--></head>
+<script src="static/layui/js/common/jQuery .js"></script>
+<script src="static/layui/js/common/myAjax.js"></script>
+<script type="text/javascript" src="./lib/layui/layui.js" charset="utf-8"></script>
+<script type="text/javascript" src="./js/xadmin.js"></script>
+
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
 <body>
 <div class="layui-fluid">
-    <div class="layui-row">
+    <div class="layui-row" style="width: 450px;margin: auto;">
         <div class="layui-form">
+
             <div class="layui-form-item">
-                <label class="layui-form-label"><span class="x-red">*</span>状态</label>
-                <div class="layui-input-block">
-                    <input type="radio" name="sign" title="正常" value="normal">
-                    <input type="radio" name="sign" title="请假" value="ask_for_leave">
-                    <input type="radio" name="sign" title="迟到" value="late">
-                    <input type="radio" name="sign" title="早退" value="leave_early">
-                    <input type="radio" name="sign" title="旷工" value="absenteeism">
+                <label for="english" class="layui-form-label">
+                    <span class="x-red">*</span>单词
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="english" required="" lay-verify="required"
+                           autocomplete="off" class="layui-input">
                 </div>
             </div>
-            <div style="margin: auto;width: 100px;" class="layui-form-item">
-                <div style="margin: auto;width: 100px;" class="layui-btn" lay-filter="update" onclick="save()">
-                    更新
+            <div class="layui-form-item">
+                <label class="layui-form-label">
+                    <span class="x-red">*</span>中文
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="chinese" required="" lay-verify="required"
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline layui-show-xs-block">
+                <div style="margin: auto;width: 100px;" class="layui-form-item">
+                    <li style="margin: auto;width: 100px;" class="layui-btn" lay-filter="add" onclick="wordAdd()">点击添加
+                    </li>
                 </div>
             </div>
         </div>
@@ -49,49 +62,33 @@
 <script src="static/layui/lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
 <script>
 
-
-    function save() {
+    /**
+     * 图片和队员信息上传更新
+     */
+    function wordAdd() {
+        let username = sessionStorage.getItem("username");
         let data = {
-            id: localStorage.getItem("signId"),
-            sign: $("input[type=radio][name=sign]:checked").val()
+            english: $("#english").val(),
+            chinese: $("#chinese").val(),
+            author: username,
+            commitTime: getNowFormatDates(),
+            number: 0,
+            collect: 1
         };
-        let result = myPostAjax('api/u/sign/updateSign', data);
-        /*返回一个结果给页面判断*/
+        console.log(data)
+        let result = myPostAjax('/api/w/word/wordAdd', data);
         if (result.code == 200) {
             // console.log(result.code,'cnmm')
-            layer.msg('已更新!', {icon: 1, time: 500}, setTimeout(function () {  //使用  setTimeout（）方法设定定时xxxx毫秒
+            layer.msg('添加成功!', {icon: 1, time: 1000}, setTimeout(function () {  //使用  setTimeout（）方法设定定时xxxx毫秒
                 parent.location.reload();
-            }, 500));
+            }, 1000));
         } else {
-            layer.msg('失败!', {icon: 2, time: 1000}, setTimeout(function () {
+            layer.msg('添加失败!', {icon: 2, time: 1000}, setTimeout(function () {
                 location.reload();
             }, 1000));
         }
-
     }
 
-
-    // // 用户列表 编辑窗口赋值方法
-    // $(function () {
-    //     findById();
-    // })
-    //
-    // /**
-    //  * 编辑窗口设值
-    //  */
-    // function findById() {
-    //     let id = {id: localStorage.getItem("signId"),};
-    //     let result = myAjax('api/u/sign/findSignById', id, 'get')
-    //     console.log(result,'ssssssssss')
-    //     let result1 = result.result
-    //
-    //     setData(result1);
-    // }
-    //
-    // function setData(result1) {
-    //     console.log(result1, '编辑窗口值 未赋值上')
-    //     $("input[name = 'sign'][value=" + result1.sign + "]").attr("checked", true);
-    // }
 
 </script>
 <script>layui.use(['form', 'layer'],
@@ -117,6 +114,6 @@
                 return false;
             });
     });</script>
-
 </body>
+
 </html>

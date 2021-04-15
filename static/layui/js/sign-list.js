@@ -15,7 +15,7 @@ function findAll() {
         pageSize: $("#pageSize").val()
     };
     // console.log(data.startDate,'startDate')
-    let result = myAjax('/user/findPlayerAll', data, 'get');
+    let result = myAjax('/api/u/sign/findPlayerAll', data, 'get');
     $("#totalPage").html(result.totalCount);
     setData(result.result);// 赋值用
 };
@@ -47,7 +47,7 @@ function setData(data) {
             '     <td>' + data[i].status + '</td>' +
             '     <td>' +
             '       <a style="width: 53px;" onclick="xadmin.open(\'请认真点到 ( •̀ ω •́ )✧!\',\'Sign-edit.html\',570,160)" href="javascript:;">' +
-            '         <div  onclick="sing(' + data[i].id + ')" style="color:#ff4500;margin-top: 5px;margin-left: 15px;"><div style="border:1px solid rgb(220,220,220);background: rgb(242,242,242);width: 50px;">开始点到</div></div>\n' +
+            '         <div  onclick="sing(' + data[i].id + ')" style="color:#ff4500;margin-top: 5px;margin-left: 15px;"><div style="border:1px solid rgb(220,220,220);background: rgb(242,242,242);width: 55px;">开始点到</div></div>\n' +
             '       </a>\n' +
             '     </td>' +
             '         <td><input type="datetime-local" id="lateTime' + data[i].id + '" class="hidden" style="width: 150px;">' +

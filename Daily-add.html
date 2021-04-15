@@ -93,23 +93,27 @@
 
 </body>
 <script>
+
     // 日报用户名赋值
     let username = sessionStorage.getItem("username");
     $("#username").html(username)
     let resultes;
     //查询出该用户的教练 和助理
     let userId = sessionStorage.getItem("DailyUserId");
+    console.log(userId, 'userIDddddddddddddddddd')
     // 赋值当前时间到日期栏
     // 开启定时器 动态获取当前时间
     setInterval(function () {
         $("#submitDate").html(getNowFormatDates());
-    }, 1000);
+    }, 500);
 
 
-    resultes = myAjax('/daily/selectDailyEditMesByUserId/' + userId, null, 'get')
-    // console.log(result.data[0].assistant,'9999999')
+    resultes = myAjax('/api/d/daily/selectAOrCById/' + userId, null, 'get')
+    console.log(resultes.data, '9999999')
+    console.log(resultes.data[0].assistant, '9999999')
     $("#assistant").html(resultes.data[0].assistant)
     $("#coach").html(resultes.data[0].coach)
+
 
     // 新增日报 已提交场合
     function commit() {
@@ -125,7 +129,7 @@
             shortage: $("#shortage").val(),
             status: '1'// 已提交的状态
         };
-        let result = myAjax('/daily/updateDaily', JSON.stringify(data), 'post', 'application/json;charset=UTF-8')
+        let result = myAjax('/api/d/daily/insertDaily', JSON.stringify(data), 'post', 'application/json;charset=UTF-8')
         console.log(result.code)
         if (result.code == 200) {
             alert("日报已提交!"), setTimeout(function () {  //使用  setTimeout（）方法设定定时2000毫秒
@@ -148,7 +152,7 @@
             shortage: $("#shortage").val(),
             status: '0'// 已提交的状态
         };
-        let result = myAjax('/daily/saveDailyInRedis', JSON.stringify(data), 'post', 'application/json;charset=UTF-8')
+        let result = myAjax('/api/d/daily/saveDailyInRedis', JSON.stringify(data), 'post', 'application/json;charset=UTF-8')
         if (result.code == 200) {
             alert('确认存为草稿吗')
             parent.location.reload();

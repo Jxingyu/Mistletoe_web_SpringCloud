@@ -37,31 +37,31 @@
     <div class="layui-row layui-col-space15">
         <div class="layui-col-md12">
             <div class="layui-card">
-                <div class="layui-card-body ">
-                    <form class="layui-form layui-col-space5">
-                        <div class="layui-inline layui-show-xs-block">
-                            <input type="text" name="username" id="username" placeholder="请输入用户名查询" autocomplete="off"
-                                   class="layui-input">
-                        </div>
-                        <div class="layui-inline layui-show-xs-block">
-                            <input class="layui-input" autocomplete="off" placeholder="日报开始日" name="start" id="start">
-                        </div>
-                        <div class="layui-inline layui-show-xs-block">
-                            <input class="layui-input" autocomplete="off" placeholder="日报截止日" name="end" id="end">
-                        </div>
-                        <div class="layui-inline layui-show-xs-block">
-                            <div onclick="findAll()" class="layui-btn" lay-filter="sreach"><i class="layui-icon">&#xe615;</i>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="layui-card-header">
-                    <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除
-                    </button>
-                    <button class="layui-btn" onclick="xadmin.open('新增日报','./Daily-add.html',900,650)"><i
-                            class="layui-icon"></i>新增日报
-                    </button>
-                </div>
+                <!--                <div class="layui-card-body ">
+                                    <form class="layui-form layui-col-space5">
+                                        <div class="layui-inline layui-show-xs-block">
+                                            <input type="text" name="username" id="username" placeholder="请输入用户名查询" autocomplete="off"
+                                                   class="layui-input">
+                                        </div>
+                                        <div class="layui-inline layui-show-xs-block">
+                                            <input class="layui-input" autocomplete="off" placeholder="日报开始日" name="start" id="start">
+                                        </div>
+                                        <div class="layui-inline layui-show-xs-block">
+                                            <input class="layui-input" autocomplete="off" placeholder="日报截止日" name="end" id="end">
+                                        </div>
+                                        <div class="layui-inline layui-show-xs-block">
+                                            <div onclick="findAll()" class="layui-btn" lay-filter="sreach"><i class="layui-icon">&#xe615;</i>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>-->
+                <!--                <div class="layui-card-header">-->
+                <!--                    <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除-->
+                <!--                    </button>-->
+                <!--                    <button class="layui-btn" onclick="xadmin.open('新增日报','./Daily-add.html',900,650)"><i-->
+                <!--                            class="layui-icon"></i>新增日报-->
+                <!--                    </button>-->
+                <!--                </div>-->
                 <div class="layui-card-body layui-table-body layui-table-main">
                     <table class="layui-table layui-form Pagebody">
                         <thead>
@@ -144,12 +144,12 @@
     function findAll() {
         username = {username: sessionStorage.getItem('username')};
         // 查询该用户id
-        let resultId = myAjax('/daily/selectDailyId', username, 'get')
+        let resultId = myAjax('/api/d/daily/selectDailyId', username, 'get')
         let userId = resultId.data
         sessionStorage.setItem("DailyUserId", userId);
         // console.log(data.startDate,'startDate')
         // let result = myAjax('/daily/selectDailyAll', data, 'get')
-        let result = myAjax('/daily/ReviewDailyAll/' , '', 'get')
+        let result = myAjax('/api/d/daily/ReviewDailyAll', '', 'get')
 
         // console.log(result);
         setData(result.data);// 赋值用
@@ -203,7 +203,7 @@
 
     function ExportWord(id) {
         sessionStorage.setItem('ExportWordId', id)
-        let result = myAjax('/daily/selectDailyById/' + id, null, 'get');
+        let result = myAjax('/api/d/daily/selectDailyDraftById/' + id, null, 'get');
         let datas = result.data[0];
 
         let data = {
@@ -218,7 +218,7 @@
             submitDate: datas.submitDate
 
         }
-        let results = myAjax('/daily/ExportWord', JSON.stringify(data), 'post', 'application/json;charset=UTF-8')// 导出word
+        let results = myAjax('/api/d/daily/ExportWord', JSON.stringify(data), 'post', 'application/json;charset=UTF-8')// 导出word
         if (results.code == 200) {
             alert('导出地址成功!' + '地址:' + results.data);
             location.reload();

@@ -106,14 +106,15 @@
         $("#submitDate").html(getNowFormatDates());
     }, 1000);
 
-    //日报草稿编辑页面赋值
+    //日报 草稿编辑页面赋值
     $(function () {
         findDailyById();
     })
 
     function findDailyById() {
         let id = sessionStorage.getItem('DailyId')// 日志表的唯一區分id
-        let result = myAjax('/daily/selectDailyById/' + id, null, 'get');
+        let result = myAjax('/api/d/daily/selectDailyDraftById/' + id, null, 'get');
+        console.log(result.data, 'DraftDraftDraftDraftDraftDraft Draft')
         let data = result.data[0];
         setData(data)
     }
@@ -125,8 +126,8 @@
         $("#shortage").val(data.shortage);
     }
 
-    resultes = myAjax('/daily/selectDailyEditMesByUserId/' + userId, null, 'get')
-    // console.log(result.data[0].assistant,'9999999')
+    resultes = myAjax('/api/d/daily/selectAOrCById/' + userId, null, 'get')
+    console.log(resultes.data[0].assistant, '9999999')
     $("#assistant").html(resultes.data[0].assistant)
     $("#coach").html(resultes.data[0].coach)
 
@@ -146,7 +147,7 @@
             shortage: $("#shortage").val(),
             status: '1'// 已提交的状态
         };
-        let result = myAjax('/daily/updateDraftDaily', JSON.stringify(data), 'post', 'application/json;charset=UTF-8')
+        let result = myAjax('/api/d/daily/updateDraftDaily', JSON.stringify(data), 'post', 'application/json;charset=UTF-8')
         console.log(result.code)
         if (result.code === 200) {
             alert('日报已提交');

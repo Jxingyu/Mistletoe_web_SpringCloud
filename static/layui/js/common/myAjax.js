@@ -1,16 +1,20 @@
 //访问服务器地址
-let URl = 'http://localhost:8081';
+let URl = 'http://localhost:10000';
 let projectName = '/mistletoe';
 //token
-let bearer = localStorage.getItem("bearer");
-let generaToken = localStorage.getItem("generaToken");
-let AUTHORIZATION = bearer + " " + generaToken;
+const bearer = localStorage.getItem("bearer");
+const generaToken = localStorage.getItem("generaToken");
+// const AUTHORIZATION = bearer + " " + generaToken;
+const AUTHORIZATION = bearer + generaToken;
+
 //请求头
 const HEADERS = {
     Authorization: AUTHORIZATION
 };
-
-function myAjax(url, data, type, contentType,processData) {
+// localStorage.clear();
+// console.log("当前localStorage ↓");
+console.log(HEADERS);
+function myAjax(url, data, type, contentType, processData) {
     // data.append("loginName",sessionStorage.getItem("username"))
     let result = null;
     // console.log(typeof data, 'myAjaxUrl');
@@ -55,7 +59,7 @@ function getDate(value) {
  * @returns {null}
  */
 function myPostAjax(url, data) {
-    let BackUrl = "http://localhost:8081/"
+    let BackUrl = "http://localhost:10000/"
     let result = null;
     $.ajax({
         url: BackUrl + url,
